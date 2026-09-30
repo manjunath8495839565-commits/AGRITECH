@@ -1,61 +1,86 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
+import { Icon } from '../components/ui/Icons'
 
 // ── Mini stat card ──────────────────────────────────────────────
-function StatCard({ label, value, unit, sub, color = 'var(--accent-green)', icon }) {
+function StatCard({ label, value, unit, sub, iconName }) {
   return (
     <div className="card" style={{ padding: '18px 20px' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div className="stat-block">
           <span className="stat-label">{label}</span>
-          <span className="stat-value" style={{ color }}>
-            {value !== null && value !== undefined ? value : <span className="skeleton" style={{ width: 80, height: 32, display: 'block' }} />}
-            {value !== null && value !== undefined && unit && <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', marginLeft: 4 }}>{unit}</span>}
-          </span>
+          <div className="stat-value">
+            {value !== null && value !== undefined ? (
+              <>
+                {value}
+                {unit && <span style={{ fontSize: '0.95rem', fontWeight: 500, color: 'var(--text-muted)', marginLeft: 4 }}>{unit}</span>}
+              </>
+            ) : (
+              <span className="skeleton" style={{ width: 80, height: 30, display: 'block' }} />
+            )}
+          </div>
           {sub && <span className="stat-sub">{sub}</span>}
         </div>
-        {icon && <div style={{ fontSize: '1.6rem' }}>{icon}</div>}
+        <div
+          style={{
+            width: 38,
+            height: 38,
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--bg-secondary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          <Icon name={iconName} size={18} />
+        </div>
       </div>
     </div>
   )
 }
 
-// ── Weather Code to emoji ───────────────────────────────────────
-function weatherEmoji(code) {
-  if (code === 0) return '☀️'
-  if (code <= 3) return '🌤️'
-  if (code <= 49) return '🌫️'
-  if (code <= 69) return '🌧️'
-  if (code <= 79) return '❄️'
-  if (code <= 99) return '⛈️'
-  return '🌡️'
-}
-
 // ── Forecast Bar Chart ─────────────────────────────────────────
 function ForecastChart({ days }) {
-  if (!days?.length) return <div className="skeleton" style={{ height: 120, borderRadius: 8 }} />
+  if (!days?.length) return <div className="skeleton" style={{ height: 120, borderRadius: 'var(--radius-sm)' }} />
   const max = Math.max(...days.map(d => d.temperature_max))
   return (
-    <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end', height: 120 }}>
+    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end', height: 120 }}>
       {days.map((d, i) => {
-        const pct = (d.temperature_max / max) * 80
+        const pct = Math.max(15, Math.round((d.temperature_max / (max || 1)) * 80))
         const label = new Date(d.date).toLocaleDateString('en', { weekday: 'short' })
         const hasRain = d.precipitation_sum > 0
         return (
-          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{d.temperature_max.toFixed(0)}°</span>
-            <div style={{
-              width: '100%', height: `${pct}px`, minHeight: 8,
-              background: hasRain
-                ? 'linear-gradient(to top, var(--accent-blue), rgba(59,130,246,0.4))'
-                : 'linear-gradient(to top, var(--accent-green), rgba(34,197,94,0.3))',
-              borderRadius: '4px 4px 2px 2px', transition: 'height 0.5s ease',
-              position: 'relative',
-            }}>
-              {hasRain && <span style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)', fontSize: '0.6rem' }}>💧</span>}
+          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+              {d.temperature_max.toFixed(0)}°
+            </span>
+            <div
+              style={{
+                width: '100%',
+                maxWidth: 24,
+                height: `${pct}px`,
+                background: hasRain ? 'var(--text-primary)' : 'var(--accent-green)',
+                borderRadius: '3px 3px 1px 1px',
+                transition: 'height 0.3s ease',
+                position: 'relative',
+              }}
+            >
+              {hasRain && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: -16,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <Icon name="droplet" size={11} color="var(--accent-blue)" />
+                </div>
+              )}
             </div>
-            <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>{label}</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{label}</span>
           </div>
         )
       })}
@@ -65,23 +90,53 @@ function ForecastChart({ days }) {
 
 // ── Global Activity Feed ───────────────────────────────────────
 const SAMPLE_ACTIVITY = [
-  { time: '2m ago', msg: '🌾 Farm KEN-042 diagnosed: leaf rust detected', type: 'alert' },
-  { time: '5m ago', msg: '📦 Interop packet A→B: price update relay', type: 'info' },
-  { time: '12m ago', msg: '🌧️ Flood alert issued for Tana River zone', type: 'warning' },
-  { time: '18m ago', msg: '✅ AgriN advisory answered for Farm IND-017', type: 'success' },
-  { time: '24m ago', msg: '🛰️ Sentinel-2 pass: NDVI +0.12 in Punjab zone', type: 'info' },
-  { time: '31m ago', msg: '💱 USD/INR updated: 83.94', type: 'info' },
+  { time: '2m ago', msg: 'Farm KEN-042 diagnosed: leaf rust detected', type: 'alert', icon: 'alert' },
+  { time: '5m ago', msg: 'Interop packet A→B: price update relay verified', type: 'info', icon: 'network' },
+  { time: '12m ago', msg: 'Heavy precipitation advisory issued for Tana River zone', type: 'warning', icon: 'rain' },
+  { time: '18m ago', msg: 'AgriN agronomic advisory answered for Farm IND-017', type: 'success', icon: 'check' },
+  { time: '24m ago', msg: 'Sentinel-2 pass: NDVI +0.12 calibrated in Punjab zone', type: 'info', icon: 'satellite' },
+  { time: '31m ago', msg: 'USD/INR benchmark exchange rate updated: 83.94', type: 'info', icon: 'price' },
 ]
 
 function ActivityFeed() {
-  const colors = { alert: 'var(--accent-red)', info: 'var(--accent-blue)', warning: 'var(--accent-amber)', success: 'var(--accent-green)' }
+  const badgeMap = {
+    alert: 'badge-red',
+    info: 'badge-blue',
+    warning: 'badge-amber',
+    success: 'badge-green',
+  }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {SAMPLE_ACTIVITY.map((a, i) => (
-        <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '10px 0', borderBottom: i < SAMPLE_ACTIVITY.length - 1 ? '1px solid var(--border)' : 'none' }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: colors[a.type], flexShrink: 0, marginTop: 5, boxShadow: `0 0 6px ${colors[a.type]}` }} />
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            gap: 12,
+            alignItems: 'flex-start',
+            padding: '11px 0',
+            borderBottom: i < SAMPLE_ACTIVITY.length - 1 ? '1px solid var(--border)' : 'none',
+          }}
+        >
+          <div
+            style={{
+              width: 24,
+              height: 24,
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--bg-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              marginTop: 1,
+            }}
+          >
+            <Icon name={a.icon} size={13} color="var(--text-secondary)" />
+          </div>
           <div style={{ flex: 1 }}>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-primary)', margin: 0 }}>{a.msg}</p>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.4 }}>
+              {a.msg}
+            </p>
             <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{a.time}</span>
           </div>
         </div>
@@ -96,8 +151,11 @@ function ProviderHealth({ providers }) {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
       {Object.entries(providers).map(([name, status]) => (
-        <span key={name} className={`badge badge-${status === 'live' ? 'green' : status === 'config_required' ? 'amber' : 'red'}`}>
-          <span className={`dot dot-${status === 'live' ? 'green' : status === 'config_required' ? 'amber' : 'red'}`} style={{ width: 5, height: 5 }} />
+        <span
+          key={name}
+          className={`badge badge-${status === 'live' ? 'green' : status === 'config_required' ? 'amber' : 'red'}`}
+        >
+          <span className={`dot dot-${status === 'live' ? 'green' : status === 'config_required' ? 'amber' : 'red'}`} />
           {name.replace(/_/g, ' ')}
         </span>
       ))}
@@ -105,7 +163,7 @@ function ProviderHealth({ providers }) {
   )
 }
 
-// ── Globe visualization (CSS-based, no WebGL needed for now) ───
+// ── Globe visualization ───────────────────────────────────────
 function GlobeMini() {
   const [angle, setAngle] = useState(0)
   useEffect(() => {
@@ -123,11 +181,11 @@ function GlobeMini() {
 
   // Simple 2D projection
   const project = (lat, lon, r) => {
-    const φ = (lat * Math.PI) / 180
-    const λ = ((lon + angle) * Math.PI) / 180
-    const x = r * Math.cos(φ) * Math.sin(λ)
-    const y = -r * Math.sin(φ)
-    const z = r * Math.cos(φ) * Math.cos(λ)
+    const phi = (lat * Math.PI) / 180
+    const lambda = ((lon + angle) * Math.PI) / 180
+    const x = r * Math.cos(phi) * Math.sin(lambda)
+    const y = -r * Math.sin(phi)
+    const z = r * Math.cos(phi) * Math.cos(lambda)
     const visible = z > -20
     return { x: x + r, y: y + r, visible, scale: (z + r) / (2 * r) }
   }
@@ -145,9 +203,9 @@ function GlobeMini() {
       }} />
       {/* Latitude lines */}
       {[-45, 0, 45].map(lat => {
-        const φ = (lat * Math.PI) / 180
-        const cy = R - R * Math.sin(φ)
-        const rx = R * Math.cos(φ)
+        const phi = (lat * Math.PI) / 180
+        const cy = R - R * Math.sin(phi)
+        const rx = R * Math.cos(phi)
         const ry = rx * 0.3
         return <ellipse key={lat} cx={R} cy={cy} rx={rx} ry={ry} stroke="rgba(34,197,94,0.08)" strokeWidth="1" fill="none"
           style={{ position: 'absolute', width: '100%', height: '100%' }} />
@@ -155,9 +213,9 @@ function GlobeMini() {
       {/* Zone dots */}
       <svg width={R * 2} height={R * 2} style={{ position: 'absolute', top: 0, left: 0 }}>
         {[[-45, 0, 45].map(lat => {
-          const φ = (lat * Math.PI) / 180
-          const cy = R - R * Math.sin(φ)
-          const rx = R * Math.cos(φ)
+          const phi = (lat * Math.PI) / 180
+          const cy = R - R * Math.sin(phi)
+          const rx = R * Math.cos(phi)
           return <ellipse key={lat} cx={R} cy={cy} rx={rx} ry={rx * 0.3} stroke="rgba(34,197,94,0.08)" strokeWidth="1" fill="none" />
         })]}
         {zones.map((z, i) => {
@@ -192,13 +250,11 @@ function GlobeMini() {
 
 // ── Main Dashboard ─────────────────────────────────────────────
 export default function Dashboard() {
-  const toast = useToastStore()
   const [health, setHealth] = useState(null)
   const [weather, setWeather] = useState(null)
   const [forecast, setForecast] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Default to Bangalore for demo
   const LAT = 12.97
   const LON = 77.59
 
@@ -215,47 +271,78 @@ export default function Dashboard() {
   return (
     <div className="fade-in">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', marginBottom: 4 }}>
-            🌍 Global Operations
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Live agricultural intelligence • {new Date().toLocaleDateString('en-IN', { dateStyle: 'full' })}
+          <h1 style={{ marginBottom: 4 }}>Global Operations</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem' }}>
+            Real-time agricultural intelligence • {new Date().toLocaleDateString('en-IN', { dateStyle: 'full' })}
           </p>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <span className="badge badge-green">
-            <span className="dot dot-green dot-pulse" style={{ width: 6, height: 6 }} />
-            Node A Live
+            <span className="dot dot-green dot-pulse" />
+            Node Alpha Active
           </span>
-          <span className="badge badge-blue">24 Farms</span>
+          <span className="badge">24 Connected Farms</span>
         </div>
       </div>
 
       {/* Stats row */}
       <div className="grid-4" style={{ marginBottom: 24 }}>
-        <StatCard label="Temperature" value={w ? w.temperature_2m?.toFixed(1) : null} unit="°C" sub="Bangalore, India" icon={weatherEmoji(w?.weather_code || 0)} color="var(--accent-amber)" />
-        <StatCard label="Humidity" value={w ? w.relative_humidity_2m?.toFixed(0) : null} unit="%" sub="Relative humidity" icon="💧" color="var(--accent-blue)" />
-        <StatCard label="Wind Speed" value={w ? w.wind_speed_10m?.toFixed(1) : null} unit="km/h" sub="10m above ground" icon="🌬️" color="var(--accent-cyan)" />
-        <StatCard label="Precipitation" value={w ? w.precipitation?.toFixed(1) : null} unit="mm" sub="Current hour" icon="🌧️" color="var(--accent-purple)" />
+        <StatCard
+          label="Temperature"
+          value={w ? w.temperature_2m?.toFixed(1) : null}
+          unit="°C"
+          sub="Bangalore centroid"
+          iconName="thermometer"
+        />
+        <StatCard
+          label="Relative Humidity"
+          value={w ? w.relative_humidity_2m?.toFixed(0) : null}
+          unit="%"
+          sub="Vapor saturation"
+          iconName="droplet"
+        />
+        <StatCard
+          label="Wind Velocity"
+          value={w ? w.wind_speed_10m?.toFixed(1) : null}
+          unit="km/h"
+          sub="10m surface elevation"
+          iconName="wind"
+        />
+        <StatCard
+          label="Precipitation"
+          value={w ? w.precipitation?.toFixed(1) : null}
+          unit="mm"
+          sub="Measured hour"
+          iconName="rain"
+        />
       </div>
 
       {/* Main grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginBottom: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: 20, marginBottom: 24 }}>
         {/* Globe + forecast */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div className="card" style={{ padding: 28 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-              <h3 style={{ fontSize: '1rem' }}>🌐 Global Farm Network</h3>
+          <div className="card" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon name="globe" size={17} color="var(--accent-green)" />
+                <h3 style={{ fontSize: '1rem', fontWeight: 600 }}>Global Farm Telemetry Mesh</h3>
+              </div>
               <div style={{ display: 'flex', gap: 6 }}>
-                <span className="badge badge-green">24 active farms</span>
-                <span className="badge badge-blue">5 zones</span>
+                <span className="badge badge-green">24 farms</span>
+                <span className="badge">5 nodes</span>
               </div>
             </div>
             <GlobeMini />
             <div style={{ marginTop: 16, display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
-              {[['India', 'var(--accent-green)'], ['Kenya', 'var(--accent-amber)'], ['Nigeria', 'var(--accent-blue)'], ['Senegal', 'var(--accent-purple)'], ['Bangladesh', 'var(--accent-cyan)']].map(([l, c]) => (
+              {[
+                ['India', 'var(--accent-green)'],
+                ['Kenya', 'var(--accent-amber)'],
+                ['Nigeria', 'var(--accent-blue)'],
+                ['Senegal', 'var(--accent-purple)'],
+                ['Bangladesh', 'var(--accent-cyan)'],
+              ].map(([l, c]) => (
                 <span key={l} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                   <span style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
                   {l}
@@ -264,13 +351,24 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="card" style={{ padding: 24 }}>
-            <h3 style={{ fontSize: '1rem', marginBottom: 16 }}>📈 7-Day Weather Forecast – Bangalore</h3>
+          <div className="card" style={{ padding: 22 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon name="rain" size={16} color="var(--accent-green)" />
+                <h3 style={{ fontSize: '0.98rem' }}>7-Day Meteorological Horizon</h3>
+              </div>
+              <span className="source-badge">Open-Meteo ECMWF</span>
+            </div>
             <ForecastChart days={forecast} />
-            <div style={{ marginTop: 12, display: 'flex', gap: 12, fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 4, background: 'var(--accent-green)', borderRadius: 2 }} />Dry day</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 4, background: 'var(--accent-blue)', borderRadius: 2 }} />Rain day</span>
-              <span style={{ marginLeft: 'auto', color: 'var(--text-secondary)' }}>Source: Open-Meteo API</span>
+            <div style={{ marginTop: 14, display: 'flex', gap: 14, fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 8, height: 8, background: 'var(--accent-green)', borderRadius: 2 }} />
+                Dry spell
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 8, height: 8, background: 'var(--text-primary)', borderRadius: 2 }} />
+                Precipitation event
+              </span>
             </div>
           </div>
         </div>
@@ -279,24 +377,24 @@ export default function Dashboard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {/* Provider health */}
           <div className="card" style={{ padding: 20 }}>
-            <h3 style={{ fontSize: '0.9rem', marginBottom: 14 }}>⚡ Provider Status</h3>
+            <h3 style={{ fontSize: '0.9rem', marginBottom: 12 }}>Provider Infrastructure</h3>
             <ProviderHealth providers={health?.providers} />
-            {!health && <div className="skeleton" style={{ height: 60, borderRadius: 8 }} />}
+            {!health && <div className="skeleton" style={{ height: 50, borderRadius: 'var(--radius-sm)' }} />}
             <div className="provenance-bar" style={{ marginTop: 12 }}>
-              <span>Node: {health?.node || '—'}</span>
+              <span>Node: {health?.node || 'Local'}</span>
               <span>•</span>
-              <span>v{health?.version || '—'}</span>
+              <span>Build: v{health?.version || '2.0'}</span>
               <span>•</span>
-              <span style={{ color: 'var(--accent-green)' }}>{health?.status || '—'}</span>
+              <span style={{ color: 'var(--accent-green)', fontWeight: 600 }}>{health?.status || 'Online'}</span>
             </div>
           </div>
 
           {/* Activity feed */}
           <div className="card" style={{ padding: 20, flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <h3 style={{ fontSize: '0.9rem' }}>📡 Live Activity</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <h3 style={{ fontSize: '0.9rem' }}>Activity Stream</h3>
               <span className="badge badge-green">
-                <span className="dot dot-green dot-pulse" style={{ width: 5, height: 5 }} />
+                <span className="dot dot-green dot-pulse" />
                 Live
               </span>
             </div>
@@ -305,16 +403,20 @@ export default function Dashboard() {
 
           {/* Quick actions */}
           <div className="card" style={{ padding: 20 }}>
-            <h3 style={{ fontSize: '0.9rem', marginBottom: 12 }}>⚡ Quick Actions</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <h3 style={{ fontSize: '0.9rem', marginBottom: 12 }}>Platform Navigation</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {[
-                { label: '🌾 View Farmer App', href: '/farmer' },
-                { label: '🌐 Network Monitor', href: '/network' },
-                { label: '🛰️ Field 3D Scene', href: '/field' },
-                { label: '🤖 Ask AgriN AI', href: '/advisory' },
-              ].map(({ label, href }) => (
-                <a key={href} href={href} className="btn btn-secondary btn-sm" style={{ justifyContent: 'flex-start' }}>
-                  {label}
+                { label: 'Farmer Dossier & Scan', href: '/farmer', icon: 'farmer' },
+                { label: 'Network Telemetry Monitor', href: '/network', icon: 'network' },
+                { label: 'Field 3D Synthesis', href: '/field', icon: 'field' },
+                { label: 'Agronomic AI Advisory', href: '/advisory', icon: 'sparkles' },
+              ].map(({ label, href, icon }) => (
+                <a key={href} href={href} className="btn btn-secondary btn-sm" style={{ justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                    <Icon name={icon} size={14} color="var(--text-secondary)" />
+                    {label}
+                  </span>
+                  <Icon name="arrowRight" size={13} color="var(--text-muted)" />
                 </a>
               ))}
             </div>
@@ -322,10 +424,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Source attribution */}
+      {/* Colophon */}
       <div style={{ textAlign: 'center', padding: '16px 0', borderTop: '1px solid var(--border)', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-        Data: Open-Meteo • SoilGrids (ISRIC) • NASA POWER • Element84 STAC • open.er-api.com •
-        AgriN Connect v2 – Built for precision agriculture
+        Open-Meteo • ISRIC SoilGrids • NASA POWER • Copernicus Sentinel STAC • AgriN Connect v2
       </div>
     </div>
   )

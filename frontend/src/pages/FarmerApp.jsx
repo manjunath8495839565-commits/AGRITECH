@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
+import { Icon } from '../components/ui/Icons'
 
 // ── 6 Countries & Metadata ─────────────────────────────────────
 const COUNTRIES_DATA = [
-  { id: 'India', name: 'India', flag: '🇮🇳', phonePrefix: '+91', currency: 'INR', lang: 'en' },
-  { id: 'Brazil', name: 'Brazil', flag: '🇧🇷', phonePrefix: '+55', currency: 'BRL', lang: 'pt' },
-  { id: 'Russia', name: 'Russia', flag: '🇷🇺', phonePrefix: '+7', currency: 'RUB', lang: 'ru' },
-  { id: 'China', name: 'China', flag: '🇨🇳', phonePrefix: '+86', currency: 'CNY', lang: 'zh' },
-  { id: 'South Africa', name: 'South Africa', flag: '🇿🇦', phonePrefix: '+27', currency: 'ZAR', lang: 'en' },
-  { id: 'Ethiopia', name: 'Ethiopia', flag: '🇪🇹', phonePrefix: '+251', currency: 'ETB', lang: 'am' },
+  { id: 'India', name: 'India', flag: '🇮🇳', code: 'IN', phonePrefix: '+91', currency: 'INR', lang: 'en' },
+  { id: 'Brazil', name: 'Brazil', flag: '🇧🇷', code: 'BR', phonePrefix: '+55', currency: 'BRL', lang: 'pt' },
+  { id: 'Russia', name: 'Russia', flag: '🇷🇺', code: 'RU', phonePrefix: '+7', currency: 'RUB', lang: 'ru' },
+  { id: 'China', name: 'China', flag: '🇨🇳', code: 'CN', phonePrefix: '+86', currency: 'CNY', lang: 'zh' },
+  { id: 'South Africa', name: 'South Africa', flag: '🇿🇦', code: 'ZA', phonePrefix: '+27', currency: 'ZAR', lang: 'en' },
+  { id: 'Ethiopia', name: 'Ethiopia', flag: '🇪🇹', code: 'ET', phonePrefix: '+251', currency: 'ETB', lang: 'am' },
 ]
 
 const STORAGE_KEY = 'agrin_farmer_profile'
@@ -86,68 +87,78 @@ function SoilHealthView({ soil, loading, farmer, region }) {
   return (
     <div>
       <div className="grid-2" style={{ gap: 12, marginBottom: 16 }}>
-        <div style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)' }}>
+        <div style={{ padding: '14px 16px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>🧪 Soil pH (Topsoil)</span>
-            <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: 4, background: phColor, color: '#fff', fontWeight: 600 }}>{phLabel}</span>
+            <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="flask" size={13} color="var(--accent-green)" /> Soil pH (Topsoil)
+            </span>
+            <span className="badge badge-green" style={{ fontSize: '0.65rem' }}>{phLabel}</span>
           </div>
           <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: phColor }}>{ph.toFixed(1)}</div>
-          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 2 }}>Target: 6.0 – 7.5</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>Target: 6.0 – 7.5 pH</div>
         </div>
 
-        <div style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)' }}>
+        <div style={{ padding: '14px 16px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>🍂 Organic Carbon (SOC)</span>
-            <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: 4, background: 'rgba(34,197,94,0.2)', color: 'var(--accent-green)', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="leaf" size={13} color="var(--accent-green)" /> Organic Carbon (SOC)
+            </span>
+            <span className="badge" style={{ fontSize: '0.65rem' }}>
               {soc > 15 ? 'Rich' : soc > 8 ? 'Good' : 'Low'}
             </span>
           </div>
           <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{(soc / 10).toFixed(2)}%</div>
-          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 2 }}>{soc.toFixed(1)} g/kg carbon</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>{soc.toFixed(1)} g/kg carbon</div>
         </div>
 
-        <div style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)' }}>
+        <div style={{ padding: '14px 16px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>🌿 Total Nitrogen (N)</span>
-            <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: 4, background: 'rgba(59,130,246,0.2)', color: 'var(--accent-blue)', fontWeight: 600 }}>Available</span>
+            <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="leaf" size={13} color="var(--accent-blue)" /> Total Nitrogen (N)
+            </span>
+            <span className="badge badge-blue" style={{ fontSize: '0.65rem' }}>Available</span>
           </div>
           <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--accent-blue)' }}>{nitrogen.toFixed(2)} <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>g/kg</span></div>
-          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 2 }}>Root zone reserve</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>Root zone reserve</div>
         </div>
 
-        <div style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)' }}>
+        <div style={{ padding: '14px 16px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>⚡ Cation Capacity (CEC)</span>
-            <span style={{ fontSize: '0.65rem', padding: '2px 6px', borderRadius: 4, background: 'rgba(234,179,8,0.2)', color: 'var(--accent-amber)', fontWeight: 600 }}>High Retention</span>
+            <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="shield" size={13} color="var(--accent-amber)" /> Cation Capacity (CEC)
+            </span>
+            <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>High Retention</span>
           </div>
           <div style={{ fontSize: '1.4rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--accent-amber)' }}>{cec.toFixed(1)} <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>cmol/kg</span></div>
-          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 2 }}>Bulk density: {bdod.toFixed(2)} g/cm³</div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>Bulk density: {bdod.toFixed(2)} g/cm³</div>
         </div>
       </div>
 
       {/* Texture Bar */}
-      <div style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)', marginBottom: 14 }}>
+      <div style={{ padding: '14px 16px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', marginBottom: 14 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 600 }}>🌾 Soil Texture Composition</span>
+          <span style={{ fontSize: '0.76rem', fontWeight: 600 }}>Soil Texture Fraction</span>
           <span className="badge badge-green" style={{ fontSize: '0.68rem' }}>{textureClass}</span>
         </div>
 
-        <div style={{ height: 10, borderRadius: 5, overflow: 'hidden', display: 'flex', background: 'rgba(255,255,255,0.05)', marginBottom: 8 }}>
-          <div style={{ width: `${sandPct}%`, background: '#f59e0b', transition: 'width 0.5s' }} title={`Sand: ${sandPct}%`} />
-          <div style={{ width: `${siltPct}%`, background: '#06b6d4', transition: 'width 0.5s' }} title={`Silt: ${siltPct}%`} />
-          <div style={{ width: `${clayPct}%`, background: '#10b981', transition: 'width 0.5s' }} title={`Clay: ${clayPct}%`} />
+        <div style={{ height: 8, borderRadius: 4, overflow: 'hidden', display: 'flex', background: 'var(--border)', marginBottom: 8 }}>
+          <div style={{ width: `${sandPct}%`, background: 'var(--accent-amber)', transition: 'width 0.5s' }} title={`Sand: ${sandPct}%`} />
+          <div style={{ width: `${siltPct}%`, background: 'var(--accent-blue)', transition: 'width 0.5s' }} title={`Silt: ${siltPct}%`} />
+          <div style={{ width: `${clayPct}%`, background: 'var(--accent-green)', transition: 'width 0.5s' }} title={`Clay: ${clayPct}%`} />
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
-          <span><span style={{ color: '#f59e0b', fontWeight: 700 }}>■</span> Sand: {sandPct}%</span>
-          <span><span style={{ color: '#06b6d4', fontWeight: 700 }}>■</span> Silt: {siltPct}%</span>
-          <span><span style={{ color: '#10b981', fontWeight: 700 }}>■</span> Clay: {clayPct}%</span>
+          <span>Sand: <strong>{sandPct}%</strong></span>
+          <span>Silt: <strong>{siltPct}%</strong></span>
+          <span>Clay: <strong>{clayPct}%</strong></span>
         </div>
       </div>
 
-      <div style={{ padding: '10px 14px', background: 'rgba(34,197,94,0.08)', borderRadius: 8, border: '1px solid rgba(34,197,94,0.2)', marginBottom: 14 }}>
-        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-green)', marginBottom: 2 }}>💡 Agronomic Advisory for {farmer.crop}</div>
-        <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{guidance}</div>
+      <div style={{ padding: '12px 14px', background: 'var(--accent-tint)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(5, 150, 105, 0.25)', marginBottom: 14 }}>
+        <div style={{ fontSize: '0.74rem', fontWeight: 700, color: 'var(--accent-green)', marginBottom: 2 }}>
+          Agronomic Advisory for {farmer.crop}
+        </div>
+        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{guidance}</div>
       </div>
 
       <div style={{ marginBottom: 12 }}>
@@ -339,39 +350,53 @@ function PlantScanCard({ farmer, region }) {
 
         {previewUrl ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-            <div style={{ position: 'relative', width: 140, height: 140, borderRadius: 12, overflow: 'hidden', border: '2px solid var(--accent-green)', boxShadow: 'var(--shadow-card)' }}>
+            <div style={{ position: 'relative', width: 140, height: 140, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--accent-green)', boxShadow: 'var(--shadow-card)' }}>
               <img src={previewUrl} alt="Leaf Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button className="btn btn-secondary btn-sm" onClick={() => fileInputRef.current?.click()}>
-                📷 Choose Different Photo
+              <button className="btn btn-secondary btn-sm" onClick={() => fileInputRef.current?.click()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="camera" size={13} />
+                <span>Choose Different Photo</span>
               </button>
               <button
                 className="btn btn-primary btn-sm"
                 onClick={runScan}
                 disabled={scanning}
-                style={{ minWidth: 120 }}
+                style={{ minWidth: 120, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
-                {scanning ? '⏳ Scanning...' : '🔬 Analyze Leaf'}
+                <Icon name={scanning ? 'clock' : 'scan'} size={13} />
+                <span>{scanning ? 'Scanning...' : 'Analyze Leaf'}</span>
               </button>
             </div>
           </div>
         ) : (
           <div>
-            <div style={{ fontSize: '2.5rem', marginBottom: 8 }}>🍃</div>
-            <h4 style={{ fontSize: '1rem', marginBottom: 4 }}>Capture or Upload Crop Leaf</h4>
+            <div style={{
+              width: 48, height: 48, borderRadius: 'var(--radius-sm)', margin: '0 auto 12px',
+              background: 'var(--bg-secondary)', border: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--accent-green)',
+            }}>
+              <Icon name="leaf" size={22} />
+            </div>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 4, color: 'var(--text-primary)' }}>
+              Capture or Upload Crop Leaf
+            </h4>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', marginBottom: 16 }}>
-              Hold camera steady in good daylight. ViT + Vision-LLM will verify disease & prescribe treatment.
+              Hold camera steady in good daylight. ViT + Vision-LLM will verify foliar disease & prescribe targeted treatment.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-              <button className="btn btn-primary btn-sm" onClick={() => fileInputRef.current?.click()}>
-                📷 Take Photo / Upload
+              <button className="btn btn-primary btn-sm" onClick={() => fileInputRef.current?.click()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="camera" size={13} />
+                <span>Upload Leaf Photo</span>
               </button>
-              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('diseased')}>
-                ⚡ Load Sample Infected Leaf
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('diseased')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="leaf" size={13} />
+                <span>Load Sample Leaf</span>
               </button>
-              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('blurry')}>
-                🧪 Test Blur Quality Gate
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('blurry')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="alert" size={13} />
+                <span>Test Blur Gate</span>
               </button>
             </div>
           </div>
@@ -381,8 +406,8 @@ function PlantScanCard({ farmer, region }) {
       {/* Scanning Step Narration */}
       {scanning && (
         <div style={{
-          padding: '16px', background: 'var(--bg-card)', borderRadius: 10,
-          border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 10,
+          padding: '14px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)',
+          border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 8,
         }}>
           <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: 8 }}>
             <span className="dot dot-green dot-pulse" />
@@ -408,17 +433,18 @@ function PlantScanCard({ farmer, region }) {
       {/* Retake / Quality Error Banner */}
       {errorBanner && (
         <div style={{
-          padding: '16px', background: 'rgba(239,68,68,0.08)', borderRadius: 10,
-          border: '1px solid rgba(239,68,68,0.25)', display: 'flex', flexDirection: 'column', gap: 6,
+          padding: '14px 16px', background: 'rgba(239,68,68,0.06)', borderRadius: 'var(--radius-sm)',
+          border: '1px solid rgba(239,68,68,0.2)', display: 'flex', flexDirection: 'column', gap: 6,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
-            <span style={{ fontWeight: 700, color: 'var(--accent-red)', fontSize: '0.9rem' }}>{errorBanner.title}</span>
+            <Icon name="alert" size={16} color="var(--accent-red)" />
+            <span style={{ fontWeight: 600, color: 'var(--accent-red)', fontSize: '0.85rem' }}>{errorBanner.title}</span>
           </div>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{errorBanner.message}</p>
           <div style={{ marginTop: 8 }}>
-            <button className="btn btn-secondary btn-sm" onClick={() => fileInputRef.current?.click()}>
-              🔄 Retake Photo Now
+            <button className="btn btn-secondary btn-sm" onClick={() => fileInputRef.current?.click()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="camera" size={13} />
+              <span>Retake Photo</span>
             </button>
           </div>
         </div>
@@ -471,13 +497,13 @@ function PlantScanCard({ farmer, region }) {
                       {Math.round(confidence * 100)}%
                     </span>
                   </div>
-                  <div style={{ height: 8, borderRadius: 4, background: 'var(--bg-secondary)', overflow: 'hidden' }}>
+                  <div style={{ height: 6, borderRadius: 3, background: 'var(--bg-secondary)', overflow: 'hidden' }}>
                     <div style={{
                       height: '100%',
                       width: `${Math.round(confidence * 100)}%`,
-                      background: 'linear-gradient(90deg, var(--accent-blue), var(--accent-green))',
-                      borderRadius: 4,
-                      transition: 'width 0.6s ease',
+                      background: 'var(--accent-green)',
+                      borderRadius: 3,
+                      transition: 'width 0.4s ease',
                     }} />
                   </div>
                 </div>
@@ -485,11 +511,12 @@ function PlantScanCard({ farmer, region }) {
                 {/* Pathologist Review Notes */}
                 {explanation && (
                   <div style={{
-                    padding: '12px 14px', background: 'var(--bg-card)', borderRadius: 8,
+                    padding: '12px 14px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--border)', marginBottom: 14,
                   }}>
-                    <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-blue)', marginBottom: 4 }}>
-                      👁️ Visual Pathology Review
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', fontWeight: 600, color: 'var(--accent-blue)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      <Icon name="flask" size={13} />
+                      <span>Visual Pathology Review</span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
                       {explanation}
@@ -504,17 +531,17 @@ function PlantScanCard({ farmer, region }) {
 
                 {/* Two-Tier Treatment Recommendation */}
                 <div style={{ borderTop: '1px solid var(--border)', paddingTop: 14 }}>
-                  <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
                     <button
                       className="btn btn-sm"
                       onClick={() => setActiveTreatmentTab('organic')}
                       style={{
                         background: activeTreatmentTab === 'organic' ? 'var(--accent-green)' : 'var(--bg-secondary)',
                         color: activeTreatmentTab === 'organic' ? '#fff' : 'var(--text-primary)',
-                        border: 'none',
+                        border: '1px solid var(--border)',
                       }}
                     >
-                      🟢 Tier 1: Organic & Bio-control
+                      Tier 1: Bio-Control
                     </button>
                     <button
                       className="btn btn-sm"
@@ -522,10 +549,10 @@ function PlantScanCard({ farmer, region }) {
                       style={{
                         background: activeTreatmentTab === 'chemical' ? 'var(--accent-amber)' : 'var(--bg-secondary)',
                         color: activeTreatmentTab === 'chemical' ? '#fff' : 'var(--text-primary)',
-                        border: 'none',
+                        border: '1px solid var(--border)',
                       }}
                     >
-                      🟡 Tier 2: Chemical Intervention
+                      Tier 2: Targeted Chemical
                     </button>
                     <button
                       className="btn btn-sm"
@@ -533,17 +560,17 @@ function PlantScanCard({ farmer, region }) {
                       style={{
                         background: activeTreatmentTab === 'prevention' ? 'var(--accent-blue)' : 'var(--bg-secondary)',
                         color: activeTreatmentTab === 'prevention' ? '#fff' : 'var(--text-primary)',
-                        border: 'none',
+                        border: '1px solid var(--border)',
                       }}
                     >
-                      🛡️ Cultural Prevention
+                      Tier 3: Cultural Practice
                     </button>
                   </div>
 
-                  <div style={{ padding: '14px', background: 'var(--bg-card)', borderRadius: 8, border: '1px solid var(--border)', fontSize: '0.8rem', lineHeight: 1.6 }}>
+                  <div style={{ padding: '14px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)', fontSize: '0.8rem', lineHeight: 1.6 }}>
                     {activeTreatmentTab === 'organic' && (
                       <div>
-                        <div style={{ fontWeight: 700, color: 'var(--accent-green)', marginBottom: 4 }}>Eco-Friendly Biological Management</div>
+                        <div style={{ fontWeight: 600, color: 'var(--accent-green)', marginBottom: 4 }}>Eco-Friendly Biological Management</div>
                         <p style={{ color: 'var(--text-secondary)' }}>
                           {treatment.organic_treatment || 'Apply neem oil solution (1500 ppm) or copper hydroxide protectant. Spray early morning.'}
                         </p>
@@ -551,18 +578,19 @@ function PlantScanCard({ farmer, region }) {
                     )}
                     {activeTreatmentTab === 'chemical' && (
                       <div>
-                        <div style={{ fontWeight: 700, color: 'var(--accent-amber)', marginBottom: 4 }}>Targeted Chemical Controls & PPE Advisory</div>
+                        <div style={{ fontWeight: 600, color: 'var(--accent-amber)', marginBottom: 4 }}>Targeted Chemical Controls & PPE Advisory</div>
                         <p style={{ color: 'var(--text-secondary)', marginBottom: 6 }}>
                           {treatment.chemical_treatment || 'Apply systemic fungicide adhering strictly to localized dosage rates.'}
                         </p>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--accent-red)', fontWeight: 600 }}>
-                          ⚠️ Always wear mask, eye protection, and observe minimum 7-day pre-harvest interval.
+                        <div style={{ fontSize: '0.72rem', color: 'var(--accent-red)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <Icon name="alert" size={13} color="var(--accent-red)" />
+                          <span>Always wear mask, eye protection, and observe minimum 7-day pre-harvest interval.</span>
                         </div>
                       </div>
                     )}
                     {activeTreatmentTab === 'prevention' && (
                       <div>
-                        <div style={{ fontWeight: 700, color: 'var(--accent-blue)', marginBottom: 4 }}>Long-Term Agronomic Sanitation</div>
+                        <div style={{ fontWeight: 600, color: 'var(--accent-blue)', marginBottom: 4 }}>Long-Term Agronomic Sanitation</div>
                         <p style={{ color: 'var(--text-secondary)' }}>
                           {treatment.prevention || 'Ensure proper spacing for aeration. Remove and burn heavily infected foliage. Avoid overhead sprinkler irrigation.'}
                         </p>
@@ -575,13 +603,14 @@ function PlantScanCard({ farmer, region }) {
               {/* Microclimate Weather Risk Box */}
               {weatherRisk && (
                 <div style={{
-                  padding: '14px 18px', background: 'rgba(37,99,235,0.06)', borderRadius: 'var(--radius-md)',
-                  border: '1px solid rgba(37,99,235,0.2)', display: 'flex', justifyContent: 'space-between',
+                  padding: '14px 18px', background: 'var(--bg-glass)', borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between',
                   alignItems: 'center', flexWrap: 'wrap', gap: 12,
                 }}>
                   <div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--accent-blue)', fontWeight: 700, textTransform: 'uppercase' }}>
-                      🌦️ Live Microclimate Spore Risk
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', color: 'var(--accent-blue)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      <Icon name="cloud-rain" size={13} />
+                      <span>Live Microclimate Spore Risk</span>
                     </div>
                     <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: 2 }}>
                       {weatherRisk.risk_level} ({Math.round(weatherRisk.risk_score * 100)}% pressure)
@@ -668,11 +697,11 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
   }, [farmer.id, region.id])
 
   const tabs = [
-    { id: 'scan', label: '🔬 Plant Infection Scan' },
-    { id: 'weather', label: '🌦️ Weather' },
-    { id: 'soil', label: '🌱 Soil Health' },
-    { id: 'price', label: '💰 Market Price' },
-    { id: 'satellite', label: '🛰️ Satellite NDVI' },
+    { id: 'scan', label: 'Plant Scan', icon: 'scan' },
+    { id: 'weather', label: 'Weather', icon: 'cloud-sun' },
+    { id: 'soil', label: 'Soil Health', icon: 'leaf' },
+    { id: 'price', label: 'Market Prices', icon: 'trending-up' },
+    { id: 'satellite', label: 'Satellite NDVI', icon: 'network' },
   ]
 
   return (
@@ -680,14 +709,16 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
       {/* Farmer Profile Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20, flexWrap: 'wrap' }}>
         <div style={{
-          width: 52, height: 52, borderRadius: '50%',
-          background: 'linear-gradient(135deg, var(--accent-green), var(--accent-blue))',
+          width: 44, height: 44, borderRadius: 'var(--radius-sm)',
+          background: 'var(--bg-secondary)', border: '1px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.5rem', flexShrink: 0,
-        }}>🧑‍🌾</div>
+          color: 'var(--accent-green)', flexShrink: 0,
+        }}>
+          <Icon name="farmer" size={22} />
+        </div>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <h3 style={{ fontSize: '1.2rem', marginBottom: 2 }}>{farmer.farmer_name || farmer.name}</h3>
+            <h3 style={{ fontSize: '1.15rem', marginBottom: 2, fontWeight: 600 }}>{farmer.farmer_name || farmer.name}</h3>
             {farmer.phone && (
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>({farmer.phone})</span>
             )}
@@ -699,8 +730,9 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
         <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
           <span className="badge badge-green">{farmer.crop}</span>
           <span className="badge badge-blue">{farmer.area_ha} ha</span>
-          <button className="btn btn-secondary btn-sm" onClick={onEditDetails} style={{ marginLeft: 8 }}>
-            ✏️ Edit Profile
+          <button className="btn btn-secondary btn-sm" onClick={onEditDetails} style={{ marginLeft: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <Icon name="edit" size={13} />
+            <span>Edit Profile</span>
           </button>
         </div>
       </div>
@@ -712,14 +744,17 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
             id={`farmer-tab-${t.id}`}
             onClick={() => { setTab(t.id); load(t.id) }}
             style={{
-              background: tab === t.id ? 'rgba(34,197,94,0.1)' : 'none',
+              background: tab === t.id ? 'var(--bg-secondary)' : 'none',
               border: 'none', borderBottom: tab === t.id ? '2px solid var(--accent-green)' : '2px solid transparent',
               color: tab === t.id ? 'var(--accent-green)' : 'var(--text-secondary)',
-              padding: '10px 16px', cursor: 'pointer', fontSize: '0.84rem', fontWeight: 600,
-              fontFamily: 'var(--font-sans)', transition: 'all 0.2s', borderRadius: '6px 6px 0 0',
-              whiteSpace: 'nowrap',
+              padding: '10px 16px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600,
+              fontFamily: 'var(--font-sans)', transition: 'all 0.15s', borderRadius: '4px 4px 0 0',
+              whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: 6,
             }}
-          >{t.label}</button>
+          >
+            <Icon name={t.icon} size={14} />
+            <span>{t.label}</span>
+          </button>
         ))}
       </div>
 
@@ -736,13 +771,16 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
               <div>
                 <div className="grid-2" style={{ gap: 12, marginBottom: 16 }}>
                   {[
-                    { label: 'Temperature', value: `${weather.current.temperature_2m?.toFixed(1)}°C`, icon: '🌡️' },
-                    { label: 'Humidity', value: `${weather.current.relative_humidity_2m?.toFixed(0)}%`, icon: '💧' },
-                    { label: 'Wind Speed', value: `${weather.current.wind_speed_10m?.toFixed(1)} km/h`, icon: '🌬️' },
-                    { label: 'Precipitation', value: `${weather.current.precipitation?.toFixed(1)} mm`, icon: '🌧️' },
+                    { label: 'Temperature', value: `${weather.current.temperature_2m?.toFixed(1)}°C`, icon: 'thermometer' },
+                    { label: 'Humidity', value: `${weather.current.relative_humidity_2m?.toFixed(0)}%`, icon: 'droplet' },
+                    { label: 'Wind Speed', value: `${weather.current.wind_speed_10m?.toFixed(1)} km/h`, icon: 'wind' },
+                    { label: 'Precipitation', value: `${weather.current.precipitation?.toFixed(1)} mm`, icon: 'rain' },
                   ].map(({ label, value, icon }) => (
-                    <div key={label} style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: '1px solid var(--border)' }}>
-                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: 4 }}>{icon} {label}</div>
+                    <div key={label} style={{ padding: '12px 14px', background: 'var(--bg-glass)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Icon name={icon} size={13} />
+                        <span>{label}</span>
+                      </div>
                       <div style={{ fontSize: '1.2rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{value}</div>
                     </div>
                   ))}
@@ -948,7 +986,10 @@ function FarmerRegistrationForm({ region, country, initialProfile, onSave, onCan
     <div className="card" style={{ maxWidth: 540, margin: '0 auto', padding: '24px 28px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
         <div>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: 2 }}>🧑‍🌾 Your Farm Details</h3>
+          <h3 style={{ fontSize: '1.15rem', marginBottom: 2, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Icon name="farmer" size={18} color="var(--accent-green)" />
+            <span>Farm Profile Details</span>
+          </h3>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
             Tell us about your land in <strong>{region.name}, {country}</strong>
           </p>
@@ -1054,7 +1095,7 @@ function FarmerRegistrationForm({ region, country, initialProfile, onSave, onCan
             </label>
             {cropInput && (
               <span className={`badge ${isCatalogCrop ? 'badge-green' : 'badge-amber'}`} style={{ fontSize: '0.65rem' }}>
-                {isCatalogCrop ? '✓ Catalog Crop' : '⚠️ Generic Parameters'}
+                {isCatalogCrop ? 'Catalog Verified' : 'Custom Crop'}
               </span>
             )}
           </div>
@@ -1220,7 +1261,10 @@ export default function FarmerApp() {
     <div className="fade-in">
       {/* Header & Breadcrumb */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: '1.8rem', marginBottom: 4 }}>🧑‍🌾 Farmer Intelligence Workspace</h1>
+        <h1 style={{ fontSize: '1.6rem', marginBottom: 4, fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Icon name="farmer" size={24} color="var(--accent-green)" />
+          <span>Farmer Intelligence Workspace</span>
+        </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
           Live microclimate weather, ISRIC soil profiles, plant infection vision scan, and market intelligence
         </p>
@@ -1230,11 +1274,13 @@ export default function FarmerApp() {
           <button
             onClick={() => { setStep('country'); setCountry(null); setSelectedRegion(null); setEditingFarmer(false) }}
             style={{
-              background: country ? 'rgba(34,197,94,0.1)' : 'none',
+              background: country ? 'var(--bg-secondary)' : 'none',
               border: 'none', color: country ? 'var(--accent-green)' : 'var(--text-muted)',
               cursor: 'pointer', fontFamily: 'var(--font-sans)', fontSize: '0.8rem', padding: '3px 8px', borderRadius: 4,
+              display: 'inline-flex', alignItems: 'center', gap: 5,
             }}>
-            🌍 Country
+            <Icon name="globe" size={12} />
+            <span>Country</span>
           </button>
 
           {country && (
@@ -1243,7 +1289,7 @@ export default function FarmerApp() {
               <button
                 onClick={() => { setStep('region'); setSelectedRegion(null); setEditingFarmer(false) }}
                 style={{
-                  background: selectedRegion ? 'rgba(34,197,94,0.1)' : 'none',
+                  background: selectedRegion ? 'var(--bg-secondary)' : 'none',
                   border: 'none', color: selectedRegion ? 'var(--accent-green)' : 'var(--text-secondary)',
                   cursor: 'pointer', fontFamily: 'var(--font-sans)', fontSize: '0.8rem', padding: '3px 8px', borderRadius: 4,
                 }}>
@@ -1258,7 +1304,7 @@ export default function FarmerApp() {
               <button
                 onClick={() => { setStep('farmer'); setEditingFarmer(false) }}
                 style={{
-                  background: farmer ? 'rgba(34,197,94,0.1)' : 'none',
+                  background: farmer ? 'var(--bg-secondary)' : 'none',
                   border: 'none', color: farmer ? 'var(--accent-green)' : 'var(--text-secondary)',
                   cursor: 'pointer', fontFamily: 'var(--font-sans)', fontSize: '0.8rem', padding: '3px 8px', borderRadius: 4,
                 }}>
@@ -1279,7 +1325,7 @@ export default function FarmerApp() {
       {/* Step 1: Country Selection (6 Countries) */}
       {step === 'country' && (
         <div className="fade-in">
-          <h3 style={{ fontSize: '1rem', marginBottom: 16, color: 'var(--text-secondary)' }}>
+          <h3 style={{ fontSize: '0.95rem', marginBottom: 16, color: 'var(--text-secondary)', fontWeight: 500 }}>
             Select your country to access local agricultural intelligence
           </h3>
           <div className="grid-3">
@@ -1290,19 +1336,28 @@ export default function FarmerApp() {
                 onClick={() => handleSelectCountry(c.id)}
                 className="card"
                 style={{
-                  padding: '24px 20px', border: '1px solid var(--border)', cursor: 'pointer',
-                  background: 'var(--bg-card)', textAlign: 'center', transition: 'all 0.2s',
+                  padding: '22px 18px', border: '1px solid var(--border)', cursor: 'pointer',
+                  background: 'var(--bg-card)', textAlign: 'center', transition: 'all 0.15s',
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-green)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-green)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none' }}
               >
-                <div style={{ fontSize: '2.8rem', marginBottom: 8 }}>{c.flag}</div>
-                <div style={{ fontWeight: 700, fontSize: '1.1rem', marginBottom: 4 }}>{c.name}</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: '1.75rem', lineHeight: 1 }}>{c.flag}</span>
+                  <span style={{
+                    fontSize: '0.72rem', fontWeight: 700, fontFamily: 'var(--font-mono)',
+                    padding: '2px 6px', background: 'var(--bg-secondary)', borderRadius: 4,
+                    border: '1px solid var(--border)', color: 'var(--text-muted)'
+                  }}>
+                    {c.code}
+                  </span>
+                </div>
+                <div style={{ fontWeight: 600, fontSize: '1.05rem', marginBottom: 4, color: 'var(--text-primary)' }}>{c.name}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   3 agro-ecological regions
                 </div>
-                <div style={{ marginTop: 8 }}>
-                  <span className="badge badge-green" style={{ fontSize: '0.65rem' }}>Currency: {c.currency}</span>
+                <div style={{ marginTop: 10 }}>
+                  <span className="badge badge-green" style={{ fontSize: '0.68rem' }}>Currency: {c.currency}</span>
                 </div>
               </button>
             ))}
@@ -1314,7 +1369,7 @@ export default function FarmerApp() {
       {step === 'region' && (
         <div className="fade-in">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>
+            <h3 style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
               Select an agro-ecological region in <strong>{country}</strong>
             </h3>
             <span className="source-badge">Open-Meteo Batched Sync</span>
@@ -1336,14 +1391,14 @@ export default function FarmerApp() {
                     className="card"
                     style={{
                       padding: '20px', border: '1px solid var(--border)', cursor: 'pointer',
-                      background: 'var(--bg-card)', textAlign: 'left', transition: 'all 0.2s',
+                      background: 'var(--bg-card)', textAlign: 'left', transition: 'all 0.15s',
                       display: 'flex', flexDirection: 'column', gap: 10,
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-green)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-green)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none' }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                      <div style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                         {r.name}
                       </div>
                       <span className="badge badge-green">LIVE</span>
@@ -1352,12 +1407,21 @@ export default function FarmerApp() {
                     {/* Live Weather Pill */}
                     {w ? (
                       <div style={{
-                        padding: '6px 10px', background: 'var(--bg-secondary)', borderRadius: 6,
+                        padding: '6px 10px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)',
                         fontSize: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                       }}>
-                        <span>🌡️ <strong>{w.temperature_2m?.toFixed(1)}°C</strong></span>
-                        <span style={{ color: 'var(--text-muted)' }}>💧 {w.relative_humidity_2m?.toFixed(0)}%</span>
-                        <span style={{ color: 'var(--accent-blue)' }}>🌬️ {w.wind_speed_10m?.toFixed(0)} km/h</span>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Icon name="thermometer" size={12} />
+                          <strong>{w.temperature_2m?.toFixed(1)}°C</strong>
+                        </span>
+                        <span style={{ color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Icon name="droplet" size={12} />
+                          {w.relative_humidity_2m?.toFixed(0)}%
+                        </span>
+                        <span style={{ color: 'var(--accent-blue)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Icon name="wind" size={12} />
+                          {w.wind_speed_10m?.toFixed(0)} km/h
+                        </span>
                       </div>
                     ) : (
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Loading live metrics...</div>
@@ -1368,8 +1432,9 @@ export default function FarmerApp() {
                     </div>
 
                     {r.soil_hint && (
-                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-                        🍂 Soil: {r.soil_hint}
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 5 }}>
+                        <Icon name="leaf" size={11} color="var(--accent-amber)" />
+                        <span>Soil: {r.soil_hint}</span>
                       </div>
                     )}
 
@@ -1399,21 +1464,29 @@ export default function FarmerApp() {
               {/* Profile Bar with "Not me" and "Edit" */}
               <div style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '12px 18px', background: 'var(--bg-card)', borderRadius: 10,
+                padding: '12px 18px', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--border)', flexWrap: 'wrap', gap: 8,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: '1.2rem' }}>🧑‍🌾</span>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 'var(--radius-sm)',
+                    background: 'var(--bg-secondary)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'var(--accent-green)',
+                  }}>
+                    <Icon name="farmer" size={16} />
+                  </div>
                   <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                     Active Farmer: <strong style={{ color: 'var(--text-primary)' }}>{farmer.farmer_name || farmer.name}</strong> ({farmer.crop}, {farmer.area_ha} ha)
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button className="btn btn-secondary btn-sm" onClick={() => setEditingFarmer(true)}>
-                    ✏️ Edit Details
+                  <button className="btn btn-secondary btn-sm" onClick={() => setEditingFarmer(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <Icon name="edit" size={12} />
+                    <span>Edit Details</span>
                   </button>
                   <button className="btn btn-secondary btn-sm" onClick={handleNotMe}>
-                    👤 Not me (Switch)
+                    <span>Switch Farmer</span>
                   </button>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
+import { Icon } from '../components/ui/Icons'
 
 // ── 3D Field Scene (CSS + SVG + Canvas simulation) ─────────────
 function FieldCanvas({ ndvi, rain, sun, temp }) {
@@ -152,9 +153,12 @@ export default function FieldScene() {
   return (
     <div className="fade-in">
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: '1.8rem', marginBottom: 4 }}>🛰️ Field 3D Scene</h1>
+        <h1 style={{ fontSize: '1.6rem', marginBottom: 4, fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Icon name="network" size={24} color="var(--accent-blue)" />
+          <span>Field 3D Scene</span>
+        </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-          Live Sentinel-2 NDVI + interactive field visualization • Bangalore, India
+          Live Sentinel-2 NDVI + interactive canopy simulation • Bangalore, India
         </p>
       </div>
 
@@ -163,7 +167,10 @@ export default function FieldScene() {
         <div>
           <div className="card" style={{ padding: 20, marginBottom: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <h3 style={{ fontSize: '1rem' }}>🌾 Field Simulation</h3>
+              <h3 style={{ fontSize: '0.95rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon name="leaf" size={16} color="var(--accent-green)" />
+                <span>Field Simulation</span>
+              </h3>
               <span className="badge" style={{ background: ndviStatus.color + '20', color: ndviStatus.color, border: `1px solid ${ndviStatus.color}40` }}>
                 {ndviStatus.label} vegetation
               </span>
@@ -179,7 +186,10 @@ export default function FieldScene() {
           {/* NDVI time series */}
           {ndviSeries && ndviSeries.length > 0 && (
             <div className="card" style={{ padding: 20 }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: 14 }}>📈 NDVI Time Series (60 days)</h3>
+              <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon name="trending-up" size={16} color="var(--accent-green)" />
+                <span>NDVI Time Series (60 days)</span>
+              </h3>
               <div style={{ display: 'flex', gap: 3, alignItems: 'flex-end', height: 80 }}>
                 {ndviSeries.slice(-20).map((p, i) => {
                   const h = Math.max(4, p.ndvi * 80)
@@ -201,17 +211,20 @@ export default function FieldScene() {
         {/* Controls panel */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="card" style={{ padding: 20 }}>
-            <h3 style={{ fontSize: '0.95rem', marginBottom: 16 }}>🎛️ Scene Controls</h3>
+            <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 16 }}>Scene Controls</h3>
 
             {[
-              { label: '🌿 NDVI Index', value: ndvi, set: setNdvi, min: 0, max: 1, step: 0.01, display: v => v.toFixed(3), color: 'var(--accent-green)' },
-              { label: '🌧️ Rainfall (%)', value: rain, set: setRain, min: 0, max: 100, step: 1, display: v => `${v}%`, color: 'var(--accent-blue)' },
-              { label: '☀️ Solar (%)', value: sun, set: setSun, min: 0, max: 100, step: 1, display: v => `${v}%`, color: 'var(--accent-amber)' },
-              { label: '🌡️ Temperature', value: temp, set: setTemp, min: 10, max: 45, step: 0.5, display: v => `${Number(v).toFixed(1)}°C`, color: 'var(--accent-red)' },
-            ].map(({ label, value, set, min, max, step, display, color }) => (
+              { label: 'NDVI Index', icon: 'leaf', value: ndvi, set: setNdvi, min: 0, max: 1, step: 0.01, display: v => v.toFixed(3), color: 'var(--accent-green)' },
+              { label: 'Rainfall (%)', icon: 'rain', value: rain, set: setRain, min: 0, max: 100, step: 1, display: v => `${v}%`, color: 'var(--accent-blue)' },
+              { label: 'Solar Exposure (%)', icon: 'sun', value: sun, set: setSun, min: 0, max: 100, step: 1, display: v => `${v}%`, color: 'var(--accent-amber)' },
+              { label: 'Temperature', icon: 'thermometer', value: temp, set: setTemp, min: 10, max: 45, step: 0.5, display: v => `${Number(v).toFixed(1)}°C`, color: 'var(--accent-red)' },
+            ].map(({ label, icon, value, set, min, max, step, display, color }) => (
               <div key={label} style={{ marginBottom: 16 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <label style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>{label}</label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <label style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <Icon name={icon} size={13} color={color} />
+                    <span>{label}</span>
+                  </label>
                   <span style={{ fontSize: '0.78rem', fontWeight: 700, color }}>{display(value)}</span>
                 </div>
                 <input type="range" min={min} max={max} step={step} value={value}
@@ -223,7 +236,10 @@ export default function FieldScene() {
 
           {/* Satellite thumbnail */}
           <div className="card" style={{ padding: 20 }}>
-            <h3 style={{ fontSize: '0.95rem', marginBottom: 12 }}>🛰️ Latest Scene</h3>
+            <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon name="network" size={15} color="var(--accent-blue)" />
+              <span>Latest Scene</span>
+            </h3>
             {thumbnail ? (
               <div>
                 <img src={thumbnail} alt="Sentinel-2 thumbnail" style={{ width: '100%', borderRadius: 8, border: '1px solid var(--border)' }} onError={e => { e.target.style.display = 'none' }} />

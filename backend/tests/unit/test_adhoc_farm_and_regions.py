@@ -3,10 +3,12 @@
 import pytest
 from httpx import AsyncClient, ASGITransport
 from main import app
+from app.models.database import init_db
 
 
 @pytest.mark.asyncio
 async def test_get_regions():
+    await init_db()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         res = await ac.get("/api/regions")

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
+import { Icon } from '../components/ui/Icons'
 
 const QUICK_QUESTIONS = [
   'What crops grow best in monsoon conditions?',
@@ -12,29 +13,27 @@ const QUICK_QUESTIONS = [
 ]
 
 const LANGUAGES = [
-  { code: 'en', label: '🇬🇧 English' },
-  { code: 'hi', label: '🇮🇳 Hindi (हिंदी)' },
-  { code: 'sw', label: '🇰🇪 Swahili (Kiswahili)' },
-  { code: 'ha', label: '🇳🇬 Hausa' },
-  { code: 'fr', label: '🇫🇷 French' },
+  { code: 'en', label: 'English (EN)' },
+  { code: 'hi', label: 'Hindi (हिंदी)' },
+  { code: 'sw', label: 'Swahili (Kiswahili)' },
+  { code: 'ha', label: 'Hausa' },
+  { code: 'fr', label: 'French' },
 ]
 
-// Formatter to render **bold** and newlines cleanly without external deps
 function FormattedText({ text }) {
   if (!text) return null
   const lines = text.split('\n')
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {lines.map((line, lIdx) => {
-        if (!line.trim()) return <div key={lIdx} style={{ height: 6 }} />
-        // Split by **bold**
+        if (!line.trim()) return <div key={lIdx} style={{ height: 4 }} />
         const parts = line.split(/(\*\*.*?\*\*)/g)
         return (
           <div key={lIdx} style={{ lineHeight: 1.6 }}>
             {parts.map((part, pIdx) => {
               if (part.startsWith('**') && part.endsWith('**')) {
                 return (
-                  <strong key={pIdx} style={{ color: 'var(--accent-green)', fontWeight: 700 }}>
+                  <strong key={pIdx} style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
                     {part.slice(2, -2)}
                   </strong>
                 )
@@ -53,32 +52,50 @@ function ChatBubble({ msg }) {
   return (
     <div style={{ display: 'flex', justifyContent: isUser ? 'flex-end' : 'flex-start', marginBottom: 16 }}>
       {!isUser && (
-        <div style={{
-          width: 34, height: 34, borderRadius: '50%',
-          background: 'linear-gradient(135deg, var(--accent-green), var(--accent-blue))',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.1rem', flexShrink: 0, marginRight: 10, marginTop: 2,
-        }}>
-          🤖
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--accent-tint)',
+            border: '1px solid rgba(5, 150, 105, 0.25)',
+            color: 'var(--accent-green)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            marginRight: 10,
+            marginTop: 2,
+          }}
+        >
+          <Icon name="sparkles" size={15} />
         </div>
       )}
-      <div style={{
-        maxWidth: '82%', padding: '14px 18px',
-        borderRadius: isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-        background: isUser ? 'linear-gradient(135deg, var(--accent-green), #16a34a)' : 'var(--bg-glass)',
-        border: isUser ? 'none' : '1px solid var(--border)',
-        color: isUser ? '#fff' : 'var(--text-primary)',
-        fontSize: '0.875rem',
-        boxShadow: isUser ? '0 4px 14px rgba(34,197,94,0.2)' : '0 2px 8px rgba(0,0,0,0.1)',
-      }}>
+      <div
+        style={{
+          maxWidth: '80%',
+          padding: '12px 16px',
+          borderRadius: 'var(--radius-md)',
+          background: isUser ? 'var(--accent-green)' : 'var(--bg-card)',
+          border: isUser ? 'none' : '1px solid var(--border)',
+          color: isUser ? '#ffffff' : 'var(--text-primary)',
+          fontSize: '0.875rem',
+          boxShadow: 'var(--shadow-card)',
+        }}
+      >
         {msg.loading ? (
           <div style={{ display: 'flex', gap: 6, alignItems: 'center', padding: '6px 4px' }}>
             {[0, 1, 2].map(i => (
-              <span key={i} style={{
-                width: 7, height: 7, borderRadius: '50%',
-                background: 'var(--accent-green)',
-                animation: `pulse-dot 1.2s ease-in-out ${i * 0.2}s infinite`,
-              }} />
+              <span
+                key={i}
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: 'var(--accent-green)',
+                  animation: `pulse-dot 1.2s ease-in-out ${i * 0.2}s infinite`,
+                }}
+              />
             ))}
           </div>
         ) : (
@@ -86,16 +103,25 @@ function ChatBubble({ msg }) {
         )}
 
         {msg.sources?.length > 0 && (
-          <div style={{ marginTop: 10, paddingTop: 8, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-            <div className="provenance-bar" style={{ padding: 0, background: 'none', display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-              <span style={{ fontSize: '0.65rem', color: isUser ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)' }}>Sources:</span>
+          <div style={{ marginTop: 10, paddingTop: 8, borderTop: isUser ? '1px solid rgba(255,255,255,0.2)' : '1px solid var(--border)' }}>
+            <div className="provenance-bar" style={{ padding: 0, background: 'none', border: 'none', display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              <span style={{ fontSize: '0.68rem', color: isUser ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)' }}>Citations:</span>
               {msg.sources.map((s, i) => (
-                <span key={i} className="source-badge" style={{ fontSize: '0.62rem' }}>
+                <span
+                  key={i}
+                  className="source-badge"
+                  style={{
+                    fontSize: '0.65rem',
+                    background: isUser ? 'rgba(255,255,255,0.15)' : 'var(--bg-secondary)',
+                    color: isUser ? '#ffffff' : 'var(--text-secondary)',
+                    borderColor: isUser ? 'rgba(255,255,255,0.3)' : 'var(--border)',
+                  }}
+                >
                   {s.replace(/^https?:\/\//, '').slice(0, 35)}
                 </span>
               ))}
               {msg.confidence !== undefined && (
-                <span style={{ fontSize: '0.65rem', color: 'var(--accent-green)', marginLeft: 'auto', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.68rem', color: isUser ? '#ffffff' : 'var(--accent-green)', marginLeft: 'auto', fontWeight: 600 }}>
                   Confidence: {(msg.confidence * 100).toFixed(0)}%
                 </span>
               )}
@@ -104,13 +130,23 @@ function ChatBubble({ msg }) {
         )}
       </div>
       {isUser && (
-        <div style={{
-          width: 34, height: 34, borderRadius: '50%',
-          background: 'var(--bg-glass)', border: '1px solid var(--border)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.1rem', flexShrink: 0, marginLeft: 10, marginTop: 2,
-        }}>
-          👤
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-secondary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            marginLeft: 10,
+            marginTop: 2,
+          }}
+        >
+          <Icon name="user" size={15} />
         </div>
       )}
     </div>
@@ -122,8 +158,8 @@ export default function AdvisoryPage() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "👋 Hello! I'm AgriN, your AI precision agronomy advisor. Ask me anything about crop disease diagnosis, soil fertility, irrigation scheduling, weather coping strategies, or local market timing. How can I help your farm today?",
-      sources: ["FAO Guidelines", "AgriN Knowledge System"],
+      content: "Hello. I am AgriN, your AI precision agronomy advisor. Ask me anything about crop disease diagnosis, soil fertility, irrigation scheduling, weather coping strategies, or local market timing. How can I help your farm today?",
+      sources: ["FAO Guidelines", "AgriN Knowledge Base"],
       confidence: 0.95,
     }
   ])
@@ -161,7 +197,7 @@ export default function AdvisoryPage() {
         ...m.slice(0, -1),
         {
           role: 'assistant',
-          content: `⚠️ Advisory service note: ${e.message}. Please check your connection to AgriN Node A.`,
+          content: `Advisory service note: ${e.message}. Please check connection to AgriN Node Alpha.`,
           sources: [],
         }
       ])
@@ -198,7 +234,7 @@ export default function AdvisoryPage() {
 
       recognition.onstart = () => {
         setIsListening(true)
-        toast.show('🎙️ Listening... Speak your farming question now.', 'info')
+        toast.show('Listening... Speak your farming question now.', 'info')
       }
 
       recognition.onresult = (event) => {
@@ -227,20 +263,20 @@ export default function AdvisoryPage() {
   const shareWhatsApp = () => {
     const lastMsg = [...messages].reverse().find(m => m.role === 'assistant' && !m.loading)
     const textToShare = lastMsg
-      ? `🌾 *AgriN Farming Advice*:\n${lastMsg.content.slice(0, 500)}...\n\nShared via AgriN Connect: http://localhost:5173/advisory`
-      : '🌾 AgriN Connect v2 – AI precision agriculture advisor: http://localhost:5173/advisory'
+      ? `AgriN Farming Advice:\n${lastMsg.content.slice(0, 500)}...\n\nShared via AgriN Connect: http://localhost:5173/advisory`
+      : 'AgriN Connect v2 – AI precision agriculture advisor: http://localhost:5173/advisory'
     const encoded = encodeURIComponent(textToShare)
     window.open(`https://wa.me/?text=${encoded}`, '_blank')
   }
 
   return (
-    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 56px)' }}>
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <h1 style={{ fontSize: '1.8rem', marginBottom: 4 }}>🤖 Ask AgriN</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Precision Agricultural Advisory Engine • Qwen2.5-7B & Expert Agronomic Knowledge Base
+            <h1 style={{ marginBottom: 4 }}>Agronomic AI Advisory</h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem' }}>
+              Precision Advisory Engine • Qwen2.5-7B & Agronomic Knowledge Corpus
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -248,14 +284,19 @@ export default function AdvisoryPage() {
               value={language}
               onChange={e => setLanguage(e.target.value)}
               style={{
-                background: 'var(--bg-glass)', border: '1px solid var(--border)',
-                borderRadius: 8, color: 'var(--text-primary)', padding: '6px 12px',
-                fontSize: '0.8rem', fontFamily: 'var(--font-sans)', cursor: 'pointer',
-              }}>
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius-sm)',
+                color: 'var(--text-primary)',
+                padding: '6px 12px',
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+              }}
+            >
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
             <button onClick={shareWhatsApp} className="btn btn-secondary btn-sm" id="share-whatsapp">
-              📱 Share via WhatsApp
+              Share via WhatsApp
             </button>
           </div>
         </div>
@@ -269,19 +310,21 @@ export default function AdvisoryPage() {
           </div>
 
           {/* Input Box */}
-          <div style={{ padding: '14px 16px', borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               <button
                 type="button"
                 onClick={toggleVoice}
+                className="btn btn-secondary"
                 style={{
-                  background: isListening ? 'var(--accent-red)' : 'var(--bg-glass)',
-                  border: '1px solid var(--border)', borderRadius: 10,
-                  padding: '10px 12px', cursor: 'pointer', fontSize: '1.1rem',
-                  transition: 'all 0.2s', flexShrink: 0,
+                  padding: '9px 12px',
+                  background: isListening ? 'var(--accent-red)' : 'var(--bg-card)',
+                  color: isListening ? '#ffffff' : 'var(--text-secondary)',
+                  borderColor: isListening ? 'var(--accent-red)' : 'var(--border)',
                 }}
-                title={isListening ? 'Listening...' : 'Voice Input (Microphone)'}>
-                {isListening ? '🔴' : '🎙️'}
+                title={isListening ? 'Listening...' : 'Voice Input (Microphone)'}
+              >
+                <Icon name="mic" size={16} />
               </button>
               <textarea
                 id="advisory-input"
@@ -292,10 +335,17 @@ export default function AdvisoryPage() {
                 disabled={loading}
                 rows={1}
                 style={{
-                  flex: 1, background: 'var(--bg-glass)', border: '1px solid var(--border)',
-                  borderRadius: 10, padding: '10px 14px', color: 'var(--text-primary)',
-                  fontFamily: 'var(--font-sans)', fontSize: '0.875rem', resize: 'none',
-                  outline: 'none', minHeight: 44, maxHeight: 120, lineHeight: 1.4,
+                  flex: 1,
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '9px 12px',
+                  fontSize: '0.88rem',
+                  resize: 'none',
+                  outline: 'none',
+                  minHeight: 40,
+                  maxHeight: 100,
+                  lineHeight: 1.4,
                 }}
               />
               <button
@@ -303,8 +353,9 @@ export default function AdvisoryPage() {
                 className="btn btn-primary"
                 onClick={() => ask(input)}
                 disabled={loading || !input.trim()}
-                style={{ padding: '10px 18px', flexShrink: 0 }}>
-                {loading ? '…' : 'Send →'}
+                style={{ padding: '9px 16px', flexShrink: 0 }}
+              >
+                {loading ? 'Synthesizing…' : 'Send'}
               </button>
             </div>
           </div>
@@ -313,7 +364,7 @@ export default function AdvisoryPage() {
         {/* Sidebar */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="card" style={{ padding: 18 }}>
-            <h3 style={{ fontSize: '0.88rem', marginBottom: 12 }}>💡 Suggested Inquiries</h3>
+            <h3 style={{ fontSize: '0.88rem', marginBottom: 12 }}>Suggested Questions</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {QUICK_QUESTIONS.map((q, i) => (
                 <button
@@ -322,13 +373,21 @@ export default function AdvisoryPage() {
                   onClick={() => ask(q)}
                   disabled={loading}
                   style={{
-                    background: 'var(--bg-glass)', border: '1px solid var(--border)', borderRadius: 8,
-                    padding: '8px 12px', cursor: 'pointer', textAlign: 'left', fontSize: '0.78rem',
-                    color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)', transition: 'all 0.2s',
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '8px 10px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    fontSize: '0.78rem',
+                    color: 'var(--text-secondary)',
+                    fontFamily: 'var(--font-sans)',
+                    transition: 'var(--transition)',
                     lineHeight: 1.4,
                   }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent-green)'; e.currentTarget.style.color = 'var(--text-primary)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}>
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+                >
                   {q}
                 </button>
               ))}
@@ -336,33 +395,29 @@ export default function AdvisoryPage() {
           </div>
 
           <div className="card" style={{ padding: 18 }}>
-            <h3 style={{ fontSize: '0.88rem', marginBottom: 12 }}>⚙️ System Engine</h3>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <h3 style={{ fontSize: '0.88rem', marginBottom: 12 }}>Engine Specs</h3>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>AI Model</span>
+                <span>Model</span>
                 <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Qwen2.5-7B</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Agronomic Engine</span>
+                <span>Pipeline</span>
                 <span className="badge badge-green" style={{ fontSize: '0.62rem' }}>Active & Ready</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Guardrails</span>
                 <span className="badge badge-blue" style={{ fontSize: '0.62rem' }}>Safety Enforced</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Languages</span>
-                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>5 Languages</span>
-              </div>
             </div>
             <div className="provenance-bar" style={{ marginTop: 12 }}>
-              <span className="source-badge">FAO / ICAR Certified</span>
-              <span>Node A Hub</span>
+              <span className="source-badge">FAO / ICAR Standard</span>
+              <span>Node Alpha Hub</span>
             </div>
           </div>
 
           <div className="card" style={{ padding: 18 }}>
-            <h3 style={{ fontSize: '0.88rem', marginBottom: 8 }}>🎙️ Voice Assistance</h3>
+            <h3 style={{ fontSize: '0.88rem', marginBottom: 6 }}>Voice Input</h3>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.4 }}>
               Click the microphone button to dictate questions hands-free in the field.
             </p>
@@ -370,8 +425,9 @@ export default function AdvisoryPage() {
               id="voice-input"
               className="btn btn-secondary"
               style={{ width: '100%', fontSize: '0.8rem' }}
-              onClick={toggleVoice}>
-              {isListening ? '🔴 Stop Recording' : '🎙️ Start Voice Input'}
+              onClick={toggleVoice}
+            >
+              {isListening ? 'Stop Recording' : 'Start Voice Input'}
             </button>
           </div>
         </div>

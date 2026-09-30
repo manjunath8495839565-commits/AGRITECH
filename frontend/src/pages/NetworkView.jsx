@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
+import { Icon } from '../components/ui/Icons'
 
 // ── Node simulation ────────────────────────────────────────────
 const NODES = [
@@ -74,7 +75,10 @@ export default function NetworkView() {
   return (
     <div className="fade-in">
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: '1.8rem', marginBottom: 4 }}>🌐 Network View</h1>
+        <h1 style={{ fontSize: '1.6rem', marginBottom: 4, fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Icon name="globe" size={24} color="var(--accent-blue)" />
+          <span>Network View</span>
+        </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
           Multi-node interoperability monitor • HMAC-SHA256 signed packets
         </p>
@@ -168,7 +172,10 @@ export default function NetworkView() {
 
           {/* Network topology viz */}
           <div className="card" style={{ padding: 24 }}>
-            <h3 style={{ fontSize: '1rem', marginBottom: 16 }}>🕸️ Topology</h3>
+            <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Icon name="network" size={16} color="var(--accent-blue)" />
+              <span>Topology</span>
+            </h3>
             <svg viewBox="0 0 300 260" style={{ width: '100%' }}>
               {/* Links */}
               {[['A','B'], ['A','C'], ['A','D'], ['B','C'], ['C','D']].map(([f, t]) => {
