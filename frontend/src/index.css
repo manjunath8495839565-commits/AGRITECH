@@ -449,10 +449,47 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
     display: none;
   }
 
-  .advisory-main-grid {
+  .advisory-main-grid,
+  .dashboard-main-grid,
+  .field-scene-grid,
+  .network-main-grid {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
+
+  .advisory-page-container {
+    height: auto !important;
+    min-height: calc(100vh - 120px) !important;
+  }
+
+  .advisory-chat-card {
+    height: 520px !important;
+    max-height: 65vh !important;
+  }
+}
+
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+}
+
+.field-scene-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+}
+
+.network-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 20px;
+}
+
+.advisory-page-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px);
 }
 
 .advisory-main-grid {
@@ -461,6 +498,10 @@ h3 { font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
   gap: 20px;
   flex: 1;
   min-height: 0;
+}
+
+.advisory-chat-card {
+  min-height: 440px;
 }
 
 /* ─── Toast Notifications ─── */

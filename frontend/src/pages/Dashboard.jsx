@@ -190,9 +190,9 @@ function GlobeMini() {
     return { x: x + r, y: y + r, visible, scale: (z + r) / (2 * r) }
   }
 
-  const R = 130
+  const R = 115
   return (
-    <div style={{ position: 'relative', width: R * 2, height: R * 2, margin: '0 auto' }}>
+    <div style={{ position: 'relative', width: R * 2, height: R * 2, maxWidth: '100%', margin: '0 auto' }}>
       {/* Globe sphere */}
       <div style={{
         width: R * 2, height: R * 2, borderRadius: '50%',
@@ -320,7 +320,7 @@ export default function Dashboard() {
       </div>
 
       {/* Main grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: 20, marginBottom: 24 }}>
+      <div className="dashboard-main-grid" style={{ marginBottom: 24 }}>
         {/* Globe + forecast */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div className="card" style={{ padding: 24 }}>

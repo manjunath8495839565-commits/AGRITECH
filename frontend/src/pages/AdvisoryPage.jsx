@@ -291,12 +291,12 @@ export default function AdvisoryPage() {
   }
 
   return (
-    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)' }}>
-      <div style={{ marginBottom: 20 }}>
+    <div className="advisory-page-container fade-in">
+      <div style={{ marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
-              <h1 style={{ marginBottom: 0 }}>Agronomic AI Advisory</h1>
+              <h1 style={{ fontSize: '1.4rem', marginBottom: 0 }}>Agronomic AI Advisory</h1>
               {engineStatus?.ollama?.connected ? (
                 <span className="badge badge-green" style={{ fontSize: '0.72rem', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                   <span className="dot dot-green" style={{ width: 6, height: 6 }} />
@@ -308,11 +308,11 @@ export default function AdvisoryPage() {
                 </span>
               )}
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem' }}>
               Unprompted AI Agricultural Intelligence • Powered by Local Ollama & Agronomic Corpus
             </p>
           </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             <select
               value={language}
               onChange={e => setLanguage(e.target.value)}
@@ -321,7 +321,7 @@ export default function AdvisoryPage() {
                 border: '1px solid var(--border)',
                 borderRadius: 'var(--radius-sm)',
                 color: 'var(--text-primary)',
-                padding: '6px 12px',
+                padding: '6px 10px',
                 fontSize: '0.82rem',
                 cursor: 'pointer',
               }}
@@ -329,7 +329,7 @@ export default function AdvisoryPage() {
               {LANGUAGES.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
             <button onClick={shareWhatsApp} className="btn btn-secondary btn-sm" id="share-whatsapp">
-              Share via WhatsApp
+              WhatsApp
             </button>
           </div>
         </div>
@@ -337,7 +337,7 @@ export default function AdvisoryPage() {
 
       <div className="advisory-main-grid">
         {/* Chat Stream */}
-        <div className="card" style={{ display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
+        <div className="card advisory-chat-card" style={{ display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
           <div ref={chatRef} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 16px' }}>
             {messages.map((msg, i) => <ChatBubble key={i} msg={msg} />)}
           </div>

@@ -108,7 +108,7 @@ export default function NetworkView() {
       </div>
 
       {/* Main panel */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 20 }}>
+      <div className="network-main-grid">
         {/* Packet log */}
         <div className="card" style={{ padding: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -120,13 +120,26 @@ export default function NetworkView() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {packets.map((p, i) => (
-              <div key={p.id} className="fade-in" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: 'var(--bg-glass)', borderRadius: 8, border: `1px solid ${p.status === 'rejected' ? 'rgba(239,68,68,0.2)' : 'var(--border)'}` }}>
+              <div
+                key={p.id}
+                className="fade-in"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '10px 14px',
+                  background: 'var(--bg-glass)',
+                  borderRadius: 8,
+                  border: `1px solid ${p.status === 'rejected' ? 'rgba(239,68,68,0.2)' : 'var(--border)'}`,
+                  flexWrap: 'wrap',
+                }}
+              >
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace', flexShrink: 0 }}>{p.id}</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', flexShrink: 0 }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                   <strong style={{ color: 'var(--accent-green)' }}>Node {p.from}</strong> → <strong style={{ color: 'var(--accent-blue)' }}>Node {p.to}</strong>
                 </span>
-                <span className="badge badge-blue" style={{ fontSize: '0.6rem', flexShrink: 0 }}>{p.type}</span>
-                <span style={{ marginLeft: 'auto', display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+                <span className="badge badge-blue" style={{ fontSize: '0.6rem' }}>{p.type}</span>
+                <span style={{ marginLeft: 'auto', display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
                   <span className={`badge badge-${p.sig === 'valid' ? 'green' : 'red'}`} style={{ fontSize: '0.6rem' }}>sig:{p.sig}</span>
                   <span className={`badge badge-${p.status === 'accepted' ? 'green' : 'red'}`} style={{ fontSize: '0.6rem' }}>{p.status}</span>
                   <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{p.time}</span>

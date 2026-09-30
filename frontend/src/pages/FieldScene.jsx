@@ -114,7 +114,21 @@ function FieldCanvas({ ndvi, rain, sun, temp }) {
     animate()
   }, [ndvi, rain, sun, temp])
 
-  return <canvas ref={canvasRef} width={640} height={340} style={{ width: '100%', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)' }} />
+  return (
+    <canvas
+      ref={canvasRef}
+      width={640}
+      height={340}
+      style={{
+        width: '100%',
+        height: 'auto',
+        aspectRatio: '640 / 340',
+        borderRadius: 'var(--radius-md)',
+        border: '1px solid var(--border)',
+        display: 'block',
+      }}
+    />
+  )
 }
 
 export default function FieldScene() {
@@ -152,17 +166,17 @@ export default function FieldScene() {
 
   return (
     <div className="fade-in">
-      <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: '1.6rem', marginBottom: 4, fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Icon name="network" size={24} color="var(--accent-blue)" />
+      <div style={{ marginBottom: 20 }}>
+        <h1 style={{ fontSize: '1.4rem', marginBottom: 4, fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Icon name="network" size={22} color="var(--accent-blue)" />
           <span>Field 3D Scene</span>
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem' }}>
           Live Sentinel-2 NDVI + interactive canopy simulation • Bangalore, India
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 20 }}>
+      <div className="field-scene-grid">
         {/* 3D Canvas */}
         <div>
           <div className="card" style={{ padding: 20, marginBottom: 20 }}>
