@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { api } from '../lib/api'
 import { useToastStore } from '../stores'
 import { Icon } from '../components/ui/Icons'
+import { CropSuitabilityCard } from '../components/CropSuitabilityCard'
 
 // ── 6 Countries & Metadata ─────────────────────────────────────
 const COUNTRIES_DATA = [
@@ -224,7 +225,7 @@ function PlantScanCard({ farmer, region }) {
       ctx.fillStyle = '#4ade80'
       ctx.fillRect(0, 0, 250, 250)
     } else {
-      // High detail leaf texture
+      // High detail leaf texture with gradient
       const grad = ctx.createLinearGradient(0, 0, 250, 250)
       grad.addColorStop(0, '#15803d')
       grad.addColorStop(0.5, '#22c55e')
@@ -235,16 +236,28 @@ function PlantScanCard({ farmer, region }) {
       ctx.fill()
 
       if (sampleType === 'diseased') {
-        // Draw necrotic concentric spots
+        // Moderate necrotic spots with amber halos
         ctx.fillStyle = '#78350f'
         ctx.beginPath()
-        ctx.arc(100, 110, 18, 0, 2 * Math.PI)
-        ctx.arc(150, 140, 14, 0, 2 * Math.PI)
+        ctx.arc(95, 105, 16, 0, 2 * Math.PI)
+        ctx.arc(145, 135, 13, 0, 2 * Math.PI)
         ctx.fill()
         ctx.strokeStyle = '#f59e0b'
         ctx.lineWidth = 2
         ctx.stroke()
+      } else if (sampleType === 'severe') {
+        // Extensive necrotic blast / rust lesions
+        ctx.fillStyle = '#652309'
+        ctx.beginPath()
+        ctx.arc(80, 95, 20, 0, 2 * Math.PI)
+        ctx.arc(125, 120, 18, 0, 2 * Math.PI)
+        ctx.arc(165, 140, 16, 0, 2 * Math.PI)
+        ctx.fill()
+        ctx.strokeStyle = '#d97706'
+        ctx.lineWidth = 3
+        ctx.stroke()
       }
+      // If sampleType === 'healthy', clean unblemished canopy is preserved
     }
 
     canvas.toBlob((blob) => {
@@ -353,7 +366,7 @@ function PlantScanCard({ farmer, region }) {
             <div style={{ position: 'relative', width: 140, height: 140, borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid var(--accent-green)', boxShadow: 'var(--shadow-card)' }}>
               <img src={previewUrl} alt="Leaf Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
               <button className="btn btn-secondary btn-sm" onClick={() => fileInputRef.current?.click()} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <Icon name="camera" size={13} />
                 <span>Choose Different Photo</span>
@@ -366,6 +379,22 @@ function PlantScanCard({ farmer, region }) {
               >
                 <Icon name={scanning ? 'clock' : 'scan'} size={13} />
                 <span>{scanning ? 'Scanning...' : 'Analyze Leaf'}</span>
+              </button>
+            </div>
+            {/* Quick specimen switchers */}
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', alignSelf: 'center', marginRight: 4 }}>Test presets:</span>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('healthy')} style={{ padding: '3px 8px', fontSize: '0.72rem' }}>
+                Healthy
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('diseased')} style={{ padding: '3px 8px', fontSize: '0.72rem' }}>
+                Diseased
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('severe')} style={{ padding: '3px 8px', fontSize: '0.72rem' }}>
+                Severe
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('blurry')} style={{ padding: '3px 8px', fontSize: '0.72rem' }}>
+                Blur Gate
               </button>
             </div>
           </div>
@@ -390,12 +419,20 @@ function PlantScanCard({ farmer, region }) {
                 <Icon name="camera" size={13} />
                 <span>Upload Leaf Photo</span>
               </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('healthy')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="check" size={13} />
+                <span>Healthy Leaf</span>
+              </button>
               <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('diseased')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="alert" size={13} />
+                <span>Diseased Leaf</span>
+              </button>
+              <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('severe')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                 <Icon name="leaf" size={13} />
-                <span>Load Sample Leaf</span>
+                <span>Severe Infection</span>
               </button>
               <button className="btn btn-secondary btn-sm" onClick={() => handleLoadSample('blurry')} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="alert" size={13} />
+                <Icon name="clock" size={13} />
                 <span>Test Blur Gate</span>
               </button>
             </div>
@@ -484,7 +521,11 @@ function PlantScanCard({ farmer, region }) {
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                    {getSeverityBadge(treatment.severity)}
+                    {diag.is_healthy ? (
+                      <span className="badge badge-green">Healthy Canopy</span>
+                    ) : (
+                      getSeverityBadge(treatment.severity)
+                    )}
                     <span className="badge badge-blue">Quality: Passed</span>
                   </div>
                 </div>
@@ -492,8 +533,13 @@ function PlantScanCard({ farmer, region }) {
                 {/* Confidence Meter (From CV Only) */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: 4 }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>Classifier Certainty</span>
-                    <span style={{ fontWeight: 700, color: 'var(--accent-green)' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>
+                      {diag.is_healthy ? 'Canopy Health Certainty' : 'Classifier Pathogen Certainty'}
+                    </span>
+                    <span style={{
+                      fontWeight: 700,
+                      color: diag.is_healthy ? 'var(--accent-green)' : (treatment.severity === 'Critical' || treatment.severity === 'High' ? 'var(--accent-red)' : 'var(--accent-amber)')
+                    }}>
                       {Math.round(confidence * 100)}%
                     </span>
                   </div>
@@ -501,7 +547,7 @@ function PlantScanCard({ farmer, region }) {
                     <div style={{
                       height: '100%',
                       width: `${Math.round(confidence * 100)}%`,
-                      background: 'var(--accent-green)',
+                      background: diag.is_healthy ? 'var(--accent-green)' : (treatment.severity === 'Critical' || treatment.severity === 'High' ? 'var(--accent-red)' : 'var(--accent-amber)'),
                       borderRadius: 3,
                       transition: 'width 0.4s ease',
                     }} />
@@ -650,7 +696,7 @@ function PlantScanCard({ farmer, region }) {
 }
 
 // ── Farmer Actions Tabs (5 Action Cards) ───────────────────────
-function FarmerActions({ farmer, region, country, onEditDetails }) {
+function FarmerActions({ farmer, region, country, onEditDetails, onUpdateCrop }) {
   const toast = useToastStore()
   const [tab, setTab] = useState('scan') // default to scan
   const [weather, setWeather] = useState(null)
@@ -872,6 +918,16 @@ function FarmerActions({ farmer, region, country, onEditDetails }) {
           </div>
         )}
       </div>
+
+      {/* AI Crop Choice & Optimization Suitability Report (Powered by Local Ollama) */}
+      <CropSuitabilityCard
+        farmer={farmer}
+        region={region}
+        country={country}
+        weather={weather}
+        soil={soil}
+        onUpdateCrop={onUpdateCrop}
+      />
     </div>
   )
 }
@@ -1497,6 +1553,11 @@ export default function FarmerApp() {
                 region={selectedRegion}
                 country={country}
                 onEditDetails={() => setEditingFarmer(true)}
+                onUpdateCrop={(newCrop) => {
+                  const updated = { ...farmer, crop: newCrop }
+                  setFarmer(updated)
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+                }}
               />
             </div>
           ) : (

@@ -99,6 +99,42 @@
       "prevention": "Avoid split-application delays of urea, use blast-tolerant seed lots, avoid planting at excessive seedling densities.",
       "risk_factors": "High night humidity (>90%), daytime temperatures 24–28°C, and cloud cover."
     },
+    "Rice___Brown_spot": {
+      "display_name": "Rice Brown Spot",
+      "pathogen": "Bipolaris oryzae",
+      "severity": "Moderate",
+      "organic_treatment": "Apply neem seed kernel extract (5%) or Trichoderma harzianum foliar spray. Correct soil potassium and silicon deficiencies.",
+      "chemical_treatment": "Mancozeb (75% WP) or Edifenphos (50% EC) protectant spray according to label timing.",
+      "prevention": "Ensure balanced soil nutrition (NPK + micronutrients); treat seeds with hot water (52°C for 10 min) before sowing.",
+      "risk_factors": "Nutrient-deficient soils, physiological drought stress, and high relative humidity (>85%)."
+    },
+    "Rice___healthy": {
+      "display_name": "Healthy Rice Canopy",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No curative sprays needed. Maintain optimal flood water depth (2–5 cm during tillering) and split nitrogen applications.",
+      "chemical_treatment": "None required.",
+      "prevention": "Maintain clean bunds, scout weekly for stem borer egg masses, and avoid excessive late-stage urea application.",
+      "risk_factors": "Optimal growing conditions."
+    },
+    "Wheat___Yellow_rust": {
+      "display_name": "Wheat Yellow Rust (Stripe Rust)",
+      "pathogen": "Puccinia striiformis",
+      "severity": "High",
+      "organic_treatment": "Foliar bio-fungicide (Trichoderma viride or Bacillus subtilis). Ensure adequate potash fertilization to fortify cell walls.",
+      "chemical_treatment": "Tebuconazole (25.9% EC) or Propiconazole (25% EC) at first appearance of yellow stripe pustules.",
+      "prevention": "Plant resistant cultivars, monitor early winter/spring fields, avoid high seedling density.",
+      "risk_factors": "Cool, humid weather (10–15°C with frequent rain or dew)."
+    },
+    "Wheat___healthy": {
+      "display_name": "Healthy Wheat Canopy",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No fungicide needed. Maintain recommended irrigation at crown root initiation and flowering stages.",
+      "chemical_treatment": "None required.",
+      "prevention": "Continue standard weekly scouting for aphid clusters or early rust pustules on lower leaves.",
+      "risk_factors": "Optimal healthy canopy."
+    },
     "Soybean___healthy": {
       "display_name": "Healthy Soybean Foliage",
       "pathogen": "None detected",

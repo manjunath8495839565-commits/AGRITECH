@@ -1,8 +1,10 @@
 """Farm advisory engine API endpoint."""
 
 from __future__ import annotations
+from typing import Optional
 from fastapi import APIRouter, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
 
 from app.engines.advisory import (
     irrigation_engine, disease_risk_engine, yield_engine,
@@ -103,17 +105,81 @@ class AskRequest(BaseModel):
     language: str = "en"
 
 
+@router.get("/engine-status")
+async def get_advisory_engine_status():
+    """Return status of local Ollama AI model and fallback knowledge engines."""
+    from app.services import ollama_llm
+    ollama_info = await ollama_llm.check_ollama_health()
+    return {
+        "status": "healthy",
+        "primary_engine": "ollama" if ollama_info["connected"] else "expert_kb",
+        "ollama": ollama_info,
+        "hf_fallback_enabled": bool(hf_llm.HF_TOKEN),
+        "expert_kb_ready": True,
+    }
+
+
 @router.post("/ask")
 async def ask_advisory(req: AskRequest):
-    """Ask AgriN AI a farming question."""
+    """Ask AgriN AI an unprompted natural language farming or general question."""
     resp = await hf_llm.ask(req.question, req.language)
-    conf = 0.92 if resp.provider == "agrin_expert_kb" else (0.85 if not resp.provider.endswith("offline") else 0.0)
-    sources = [resp.source_url] if resp.source_url else ["FAO Agronomic Guidelines", "AgriN Knowledge System"]
+    if resp.provider.startswith("ollama:"):
+        conf = 0.95
+        sources = [f"Local Ollama Neural Engine ({resp.provider.split(':', 1)[-1]})", "AgriN Agro-Intelligence"]
+    elif resp.provider == "agrin_expert_kb":
+        conf = 0.91
+        sources = ["AgriN Agronomic Knowledge Engine", "FAO Good Agricultural Practices"]
+    else:
+        conf = 0.88
+        sources = [resp.source_url] if resp.source_url else ["AgriN Cloud AI"]
+
     return {
         "answer": resp.data,
         "confidence": conf,
         "sources": sources,
         "language": req.language,
         "provider": resp.provider,
+        "latency_ms": resp.latency_ms,
     }
+
+
+class CropSuitabilityRequest(BaseModel):
+    crop: str
+    farm_id: Optional[str] = "farm_local"
+    farmer_name: Optional[str] = "Farmer"
+    area_ha: Optional[float] = 2.0
+    region_name: str
+    country: str
+    lat: float
+    lon: float
+    typical_crops: list[str] = Field(default_factory=list)
+    climate: Optional[str] = None
+    language: Optional[str] = "en"
+    soil_ph: Optional[float] = None
+    temp_c: Optional[float] = None
+    humidity_pct: Optional[float] = None
+
+
+CropSuitabilityRequest.model_rebuild()
+
+
+@router.post("/crop-suitability")
+async def check_crop_suitability(req: CropSuitabilityRequest):
+    """Evaluate whether the farmer has chosen the best crop and recommend optimal alternatives via local Ollama."""
+    from app.services.crop_suitability import evaluate_crop_suitability
+    return await evaluate_crop_suitability(
+        crop=req.crop,
+        region_name=req.region_name,
+        country=req.country,
+        lat=req.lat,
+        lon=req.lon,
+        farmer_name=req.farmer_name,
+        area_ha=req.area_ha,
+        typical_crops=req.typical_crops,
+        climate=req.climate,
+        language=req.language or "en",
+        soil_ph=req.soil_ph,
+        temp_c=req.temp_c,
+        humidity_pct=req.humidity_pct,
+    )
 

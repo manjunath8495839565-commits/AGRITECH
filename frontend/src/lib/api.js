@@ -59,6 +59,12 @@ export const api = {
         method: 'POST',
         body: JSON.stringify({ farm_id, question, language }),
       }),
+    cropSuitability: (payload) =>
+      apiFetch('/advisory/crop-suitability', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+    status: () => apiFetch('/advisory/engine-status'),
   },
   plantScan: {
     scan: (formData) => apiFetch('/plant-scan', {

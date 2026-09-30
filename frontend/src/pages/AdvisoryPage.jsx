@@ -120,6 +120,20 @@ function ChatBubble({ msg }) {
                   {s.replace(/^https?:\/\//, '').slice(0, 35)}
                 </span>
               ))}
+              {msg.provider && (
+                <span
+                  className="source-badge"
+                  style={{
+                    fontSize: '0.65rem',
+                    background: 'rgba(5, 150, 105, 0.15)',
+                    color: 'var(--accent-green)',
+                    borderColor: 'rgba(5, 150, 105, 0.3)',
+                    fontWeight: 600,
+                  }}
+                >
+                  ⚡ {msg.provider} {msg.latency_ms ? `(${msg.latency_ms}ms)` : ''}
+                </span>
+              )}
               {msg.confidence !== undefined && (
                 <span style={{ fontSize: '0.68rem', color: isUser ? '#ffffff' : 'var(--accent-green)', marginLeft: 'auto', fontWeight: 600 }}>
                   Confidence: {(msg.confidence * 100).toFixed(0)}%
@@ -167,7 +181,12 @@ export default function AdvisoryPage() {
   const [language, setLanguage] = useState('en')
   const [loading, setLoading] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [engineStatus, setEngineStatus] = useState(null)
   const chatRef = useRef(null)
+
+  useEffect(() => {
+    api.advisory.status().then(setEngineStatus).catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight
@@ -190,6 +209,8 @@ export default function AdvisoryPage() {
           content: resp.answer || 'I evaluated your agricultural query.',
           sources: resp.sources || ['AgriN Agronomic Engine'],
           confidence: resp.confidence,
+          provider: resp.provider,
+          latency_ms: resp.latency_ms,
         }
       ])
     } catch (e) {
@@ -274,9 +295,21 @@ export default function AdvisoryPage() {
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <h1 style={{ marginBottom: 4 }}>Agronomic AI Advisory</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+              <h1 style={{ marginBottom: 0 }}>Agronomic AI Advisory</h1>
+              {engineStatus?.ollama?.connected ? (
+                <span className="badge badge-green" style={{ fontSize: '0.72rem', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  <span className="dot dot-green" style={{ width: 6, height: 6 }} />
+                  Local Ollama: {engineStatus.ollama.active_model}
+                </span>
+              ) : (
+                <span className="badge badge-blue" style={{ fontSize: '0.72rem' }}>
+                  Agronomic Knowledge Core
+                </span>
+              )}
+            </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.86rem' }}>
-              Precision Advisory Engine • Qwen2.5-7B & Agronomic Knowledge Corpus
+              Unprompted AI Agricultural Intelligence • Powered by Local Ollama & Agronomic Corpus
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -398,12 +431,22 @@ export default function AdvisoryPage() {
             <h3 style={{ fontSize: '0.88rem', marginBottom: 12 }}>Engine Specs</h3>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Model</span>
-                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Qwen2.5-7B</span>
+                <span>Active Model</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+                  {engineStatus?.ollama?.active_model || 'Qwen2.5'}
+                </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Pipeline</span>
-                <span className="badge badge-green" style={{ fontSize: '0.62rem' }}>Active & Ready</span>
+                <span>Engine Type</span>
+                <span className={engineStatus?.ollama?.connected ? 'badge badge-green' : 'badge badge-blue'} style={{ fontSize: '0.62rem' }}>
+                  {engineStatus?.ollama?.connected ? 'Local Ollama Core' : 'Agronomic KB'}
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Inference</span>
+                <span className="badge badge-green" style={{ fontSize: '0.62rem' }}>
+                  {engineStatus?.ollama?.connected ? 'Local Metal / GPU' : 'Deterministic'}
+                </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>Guardrails</span>
@@ -411,7 +454,9 @@ export default function AdvisoryPage() {
               </div>
             </div>
             <div className="provenance-bar" style={{ marginTop: 12 }}>
-              <span className="source-badge">FAO / ICAR Standard</span>
+              <span className="source-badge">
+                {engineStatus?.ollama?.connected ? `Ollama (${engineStatus.ollama.active_model})` : 'FAO / ICAR Standard'}
+              </span>
               <span>Node Alpha Hub</span>
             </div>
           </div>

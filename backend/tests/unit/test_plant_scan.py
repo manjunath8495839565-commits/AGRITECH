@@ -201,3 +201,66 @@ class TestInteropPacketQueue:
         # Verify cryptographic signature
         packet_obj = InteropPacket(**latest)
         assert _verify(packet_obj) is True
+
+
+class TestDynamicScoringAndDifferentiation:
+    """Verifies that plant scan computes genuine, dynamic scores across leaf specimens."""
+
+    def _make_healthy_leaf(self):
+        from PIL import ImageDraw
+        img = Image.new("RGB", (250, 250), (255, 255, 255))
+        draw = ImageDraw.Draw(img)
+        draw.ellipse([35, 75, 215, 175], fill=(34, 197, 94))
+        return img
+
+    def _make_diseased_leaf(self, severe=False):
+        from PIL import ImageDraw
+        img = Image.new("RGB", (250, 250), (255, 255, 255))
+        draw = ImageDraw.Draw(img)
+        draw.ellipse([35, 75, 215, 175], fill=(34, 197, 94))
+        draw.ellipse([80, 90, 120, 130], fill=(120, 53, 15), outline=(245, 158, 11), width=2)
+        if severe:
+            draw.ellipse([140, 110, 180, 150], fill=(120, 53, 15), outline=(245, 158, 11), width=2)
+            draw.ellipse([60, 120, 95, 150], fill=(120, 53, 15), outline=(245, 158, 11), width=2)
+        return img
+
+    def test_healthy_rice_leaf_differs_from_fixed_score(self):
+        img_healthy = self._make_healthy_leaf()
+        results = ps._local_cv_classify(img_healthy, crop_hint="rice")
+        top1 = results[0]
+        # Should be diagnosed as healthy, NOT Rice___Blast
+        assert top1["label"] == "Rice___healthy"
+        # Dynamic score should be high and not 0.88
+        assert top1["score"] >= 0.90
+        assert top1["score"] != 0.88
+
+    def test_different_lesions_produce_different_scores(self):
+        img_moderate = self._make_diseased_leaf(severe=False)
+        img_severe = self._make_diseased_leaf(severe=True)
+
+        res_moderate = ps._local_cv_classify(img_moderate, crop_hint="rice")
+        res_severe = ps._local_cv_classify(img_severe, crop_hint="rice")
+
+        assert res_moderate[0]["label"] == "Rice___Blast"
+        assert res_severe[0]["label"] == "Rice___Blast"
+
+        score_mod = res_moderate[0]["score"]
+        score_sev = res_severe[0]["score"]
+
+        # Scores must be dynamic and different between moderate and severe
+        assert score_mod != score_sev
+        assert score_sev > score_mod
+        assert score_mod != 0.88 or score_sev != 0.88
+
+    def test_wheat_leaf_diagnosed_correctly(self):
+        img_healthy = self._make_healthy_leaf()
+        img_diseased = self._make_diseased_leaf()
+
+        res_healthy = ps._local_cv_classify(img_healthy, crop_hint="wheat")
+        res_diseased = ps._local_cv_classify(img_diseased, crop_hint="wheat")
+
+        assert res_healthy[0]["label"] == "Wheat___healthy"
+        assert res_healthy[0]["score"] >= 0.90
+
+        assert res_diseased[0]["label"] == "Wheat___Leaf_rust"
+        assert res_diseased[0]["score"] != res_healthy[0]["score"]

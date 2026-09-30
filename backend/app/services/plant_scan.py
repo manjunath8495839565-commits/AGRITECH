@@ -131,73 +131,167 @@ PLANT_VILLAGE_CLASSES = [
 
 
 def _local_cv_classify(img: Image.Image, crop_hint: Optional[str] = None) -> list[dict]:
-    """Deterministic local visual feature classifier."""
-    arr = np.array(img.resize((100, 100)), dtype=np.float32)
-    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
-    mean_r, mean_g, mean_b = float(np.mean(r)), float(np.mean(g)), float(np.mean(b))
+    """Deterministic, feature-aware local visual feature classifier.
 
-    # Detect green vs necrotic / chlorotic ratios
-    greenness = mean_g / (mean_r + mean_b + 1e-5)
-    browness = (mean_r + mean_g * 0.5) / (mean_b + 1e-5)
+    Extracts genuine leaf characteristics using Pillow and NumPy:
+      - Foliage segmentation (separating leaf tissue from background/canvas)
+      - Green tissue ratio & Excess Green Index (ExG = 2G - R - B)
+      - Necrosis / chlorosis / lesion ratios
+      - Color variance and spot contrast
+    Computes dynamic confidence scores reflecting the actual leaf visual condition.
+    """
+    arr = np.array(img.resize((120, 120)), dtype=np.float32)
+    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
+    brightness = (r + g + b) / 3.0
+
+    # Separate leaf tissue from dark canvas margins or blown-out white backdrop
+    valid_mask = (brightness > 25) & (brightness < 248)
+    if np.sum(valid_mask) < 0.10 * arr.shape[0] * arr.shape[1]:
+        valid_mask = np.ones((arr.shape[0], arr.shape[1]), dtype=bool)
+
+    lr, lg, lb = r[valid_mask], g[valid_mask], b[valid_mask]
+
+    # 1. Vibrant healthy green tissue: green channel dominates red and blue
+    is_green = (lg > lr * 1.08) & (lg > lb * 1.08)
+    green_ratio = float(np.mean(is_green))
+
+    # 2. Necrotic lesions / brown spots / rust pustules
+    is_brown = (lr > 45) & (lr >= lg * 0.92) & (lb < 130) & (lg < 200)
+    brown_ratio = float(np.mean(is_brown))
+
+    # 3. Chlorosis / yellow halos / stripe rust
+    is_yellow = (lr > 120) & (lg > 115) & (lb < 100) & ~is_green
+    yellow_ratio = float(np.mean(is_yellow))
+
+    # 4. Spot contrast & texture variance (ExG = 2*G - R - B)
+    exg = (2.0 * lg - lr - lb) / 255.0
+    exg_std = float(np.std(exg))
 
     hint = (crop_hint or "").lower().strip()
+    is_healthy_leaf = (green_ratio >= 0.68 and brown_ratio < 0.04 and yellow_ratio < 0.06 and exg_std < 0.32)
 
-    if "wheat" in hint:
-        return [
-            {"label": "Wheat___Leaf_rust", "score": 0.86},
-            {"label": "Wheat___Yellow_rust", "score": 0.09},
-            {"label": "Wheat___healthy", "score": 0.05},
-        ]
-    elif "rice" in hint:
-        return [
-            {"label": "Rice___Blast", "score": 0.88},
-            {"label": "Rice___Brown_spot", "score": 0.08},
-            {"label": "Rice___healthy", "score": 0.04},
-        ]
-    elif "potato" in hint:
-        if greenness > 0.9:
+    if is_healthy_leaf:
+        # Dynamic score for healthy leaf (ranges 0.81 to 0.96 based on green purity and tissue uniformity)
+        raw_score = 0.81 + 0.15 * min(1.0, green_ratio) - 0.5 * brown_ratio - 0.2 * exg_std
+        score = round(min(0.96, max(0.80, raw_score)), 2)
+        r1 = round((1.0 - score) * 0.65, 2)
+        r2 = round(1.0 - score - r1, 2)
+
+        if "rice" in hint:
             return [
-                {"label": "Potato___healthy", "score": 0.87},
-                {"label": "Potato___Early_blight", "score": 0.08},
-                {"label": "Potato___Late_blight", "score": 0.05},
+                {"label": "Rice___healthy", "score": score},
+                {"label": "Rice___Blast", "score": r1},
+                {"label": "Rice___Brown_spot", "score": r2},
             ]
-        return [
-            {"label": "Potato___Late_blight", "score": 0.84},
-            {"label": "Potato___Early_blight", "score": 0.12},
-            {"label": "Potato___healthy", "score": 0.04},
-        ]
-    elif "corn" in hint or "maize" in hint:
-        if greenness > 0.9:
+        elif "wheat" in hint:
             return [
-                {"label": "Corn___healthy", "score": 0.89},
-                {"label": "Corn___Common_rust", "score": 0.07},
-                {"label": "Corn___Northern_Leaf_Blight", "score": 0.04},
+                {"label": "Wheat___healthy", "score": score},
+                {"label": "Wheat___Leaf_rust", "score": r1},
+                {"label": "Wheat___Yellow_rust", "score": r2},
             ]
-        return [
-            {"label": "Corn___Common_rust", "score": 0.85},
-            {"label": "Corn___Northern_Leaf_Blight", "score": 0.11},
-            {"label": "Corn___healthy", "score": 0.04},
-        ]
-    else:
-        # Default tomato or general foliar candidate
-        if greenness > 0.92:
+        elif "potato" in hint:
             return [
-                {"label": "Tomato___healthy", "score": 0.85},
-                {"label": "Tomato___Early_blight", "score": 0.09},
-                {"label": "Tomato___Bacterial_spot", "score": 0.06},
+                {"label": "Potato___healthy", "score": score},
+                {"label": "Potato___Early_blight", "score": r1},
+                {"label": "Potato___Late_blight", "score": r2},
             ]
-        elif browness > 1.8:
+        elif "corn" in hint or "maize" in hint:
             return [
-                {"label": "Tomato___Early_blight", "score": 0.87},
-                {"label": "Tomato___Late_blight", "score": 0.09},
-                {"label": "Tomato___Bacterial_spot", "score": 0.04},
+                {"label": "Corn___healthy", "score": score},
+                {"label": "Corn___Common_rust", "score": r1},
+                {"label": "Corn___Northern_Leaf_Blight", "score": r2},
+            ]
+        elif "soybean" in hint:
+            return [
+                {"label": "Soybean___healthy", "score": score},
+                {"label": "General___Foliar_infection", "score": r1},
+                {"label": "Tomato___healthy", "score": r2},
             ]
         else:
             return [
-                {"label": "Tomato___Bacterial_spot", "score": 0.81},
-                {"label": "Tomato___Early_blight", "score": 0.14},
-                {"label": "Tomato___healthy", "score": 0.05},
+                {"label": "Tomato___healthy", "score": score},
+                {"label": "Tomato___Early_blight", "score": r1},
+                {"label": "Tomato___Bacterial_spot", "score": r2},
             ]
+    else:
+        # Diseased leaf: score scales dynamically with lesion coverage, discoloration, and spot contrast
+        severity = min(1.0, brown_ratio * 3.2 + yellow_ratio * 2.1 + exg_std * 0.75)
+        raw_score = 0.70 + 0.25 * severity
+        score = round(min(0.95, max(0.68, raw_score)), 2)
+        r1 = round((1.0 - score) * 0.70, 2)
+        r2 = round(1.0 - score - r1, 2)
+
+        if "rice" in hint:
+            if brown_ratio >= yellow_ratio * 1.2 or exg_std > 0.20:
+                return [
+                    {"label": "Rice___Blast", "score": score},
+                    {"label": "Rice___Brown_spot", "score": r1},
+                    {"label": "Rice___healthy", "score": r2},
+                ]
+            else:
+                return [
+                    {"label": "Rice___Brown_spot", "score": score},
+                    {"label": "Rice___Blast", "score": r1},
+                    {"label": "Rice___healthy", "score": r2},
+                ]
+        elif "wheat" in hint:
+            if yellow_ratio > brown_ratio:
+                return [
+                    {"label": "Wheat___Yellow_rust", "score": score},
+                    {"label": "Wheat___Leaf_rust", "score": r1},
+                    {"label": "Wheat___healthy", "score": r2},
+                ]
+            else:
+                return [
+                    {"label": "Wheat___Leaf_rust", "score": score},
+                    {"label": "Wheat___Yellow_rust", "score": r1},
+                    {"label": "Wheat___healthy", "score": r2},
+                ]
+        elif "potato" in hint:
+            if brown_ratio > 0.12 or exg_std > 0.30:
+                return [
+                    {"label": "Potato___Late_blight", "score": score},
+                    {"label": "Potato___Early_blight", "score": r1},
+                    {"label": "Potato___healthy", "score": r2},
+                ]
+            else:
+                return [
+                    {"label": "Potato___Early_blight", "score": score},
+                    {"label": "Potato___Late_blight", "score": r1},
+                    {"label": "Potato___healthy", "score": r2},
+                ]
+        elif "corn" in hint or "maize" in hint:
+            if brown_ratio > 0.08:
+                return [
+                    {"label": "Corn___Common_rust", "score": score},
+                    {"label": "Corn___Northern_Leaf_Blight", "score": r1},
+                    {"label": "Corn___healthy", "score": r2},
+                ]
+            else:
+                return [
+                    {"label": "Corn___Northern_Leaf_Blight", "score": score},
+                    {"label": "Corn___Common_rust", "score": r1},
+                    {"label": "Corn___healthy", "score": r2},
+                ]
+        else:
+            if brown_ratio > 0.10:
+                return [
+                    {"label": "Tomato___Early_blight", "score": score},
+                    {"label": "Tomato___Late_blight", "score": r1},
+                    {"label": "Tomato___Bacterial_spot", "score": r2},
+                ]
+            elif yellow_ratio > 0.10:
+                return [
+                    {"label": "Tomato___Leaf_Mold", "score": score},
+                    {"label": "Tomato___Early_blight", "score": r1},
+                    {"label": "Tomato___healthy", "score": r2},
+                ]
+            else:
+                return [
+                    {"label": "Tomato___Bacterial_spot", "score": score},
+                    {"label": "Tomato___Early_blight", "score": r1},
+                    {"label": "Tomato___healthy", "score": r2},
+                ]
 
 
 async def run_cv_classifier(img: Image.Image, crop_hint: Optional[str] = None) -> tuple[list[dict], str]:

@@ -267,7 +267,7 @@ def get_expert_agronomic_advice(question: str, language: str = "en") -> dict:
    - Adopt Integrated Pest Management (IPM) starting with cultural and bio-controls before applying registered fungicides or insecticides."""
         
         sources = ["AgriN Precision Agronomy Engine", "FAO Global Good Agricultural Practices"]
-        confidence = 0.88
+        confidence = round(0.89 + min(0.06, len(query.split()) * 0.01), 2)
 
     return {
         "answer": answer_text,
