@@ -335,7 +335,7 @@ export default function AdvisoryPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 280px', gap: 20, flex: 1, minHeight: 0 }}>
+      <div className="advisory-main-grid">
         {/* Chat Stream */}
         <div className="card" style={{ display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden' }}>
           <div ref={chatRef} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 16px' }}>

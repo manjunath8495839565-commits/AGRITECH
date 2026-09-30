@@ -19,26 +19,31 @@ const navItems = [
   { to: '/advisory', label: 'Agronomic Advisory', icon: 'sparkles' },
 ]
 
-function Sidebar({ alerts }) {
-  const [online, setOnline] = useState(true)
+function useTheme() {
   const [theme, setTheme] = useState(() => localStorage.getItem('agrin-theme') || 'light')
-
-  useEffect(() => {
-    const handler = () => setOnline(navigator.onLine)
-    window.addEventListener('online', handler)
-    window.addEventListener('offline', handler)
-    return () => { window.removeEventListener('online', handler); window.removeEventListener('offline', handler) }
-  }, [])
-
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('agrin-theme', theme)
   }, [theme])
+  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : 'light'))
+  return [theme, toggleTheme]
+}
 
-  const toggleTheme = () => {
-    setTheme(t => (t === 'light' ? 'dark' : 'light'))
-  }
+function useOnlineStatus() {
+  const [online, setOnline] = useState(navigator.onLine)
+  useEffect(() => {
+    const handler = () => setOnline(navigator.onLine)
+    window.addEventListener('online', handler)
+    window.addEventListener('offline', handler)
+    return () => {
+      window.removeEventListener('online', handler)
+      window.removeEventListener('offline', handler)
+    }
+  }, [])
+  return online
+}
 
+function Sidebar({ alerts, theme, toggleTheme, online }) {
   return (
     <nav className="sidebar" role="navigation" aria-label="Main navigation">
       <div className="sidebar-logo">
@@ -96,6 +101,84 @@ function Sidebar({ alerts }) {
   )
 }
 
+function MobileHeader({ theme, toggleTheme, online }) {
+  return (
+    <header className="mobile-header">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="var(--accent-green)" strokeWidth="2.2" />
+          <path d="M16 8v16M8 16h16" stroke="var(--accent-green)" strokeWidth="2" />
+          <circle cx="16" cy="16" r="4" fill="var(--accent-green)" />
+        </svg>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+          AgriN Connect
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '3px 8px', background: 'var(--bg-secondary)', borderRadius: 12, fontSize: '0.68rem' }}>
+          <span className={`dot dot-${online ? 'green' : 'red'} dot-pulse`} />
+          <span style={{ color: 'var(--text-secondary)' }}>{online ? 'Live' : 'Off'}</span>
+        </div>
+        <button
+          onClick={toggleTheme}
+          className="btn-icon btn-secondary"
+          style={{ padding: 6, borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          aria-label="Toggle theme"
+        >
+          <Icon name={theme === 'light' ? 'moon' : 'sun'} size={15} />
+        </button>
+      </div>
+    </header>
+  )
+}
+
+function MobileBottomNav() {
+  const mobileNavs = [
+    { to: '/', label: 'Global', icon: 'globe', exact: true },
+    { to: '/farmer', label: 'Farmer', icon: 'farmer' },
+    { to: '/advisory', label: 'Advisor', icon: 'sparkles', badge: 'AI' },
+    { to: '/field', label: '3D Field', icon: 'field' },
+    { to: '/network', label: 'Mesh', icon: 'network' },
+  ]
+
+  return (
+    <nav className="mobile-bottom-nav" role="navigation" aria-label="Mobile navigation">
+      {mobileNavs.map(({ to, label, icon, badge, exact }) => (
+        <NavLink
+          key={to}
+          to={to}
+          end={exact}
+          className={({ isActive }) => `mobile-nav-item${isActive ? ' active' : ''}`}
+        >
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name={icon} size={18} />
+            {badge && (
+              <span
+                style={{
+                  position: 'absolute',
+                  top: -4,
+                  right: -8,
+                  fontSize: '0.55rem',
+                  padding: '1px 3px',
+                  borderRadius: 4,
+                  background: 'var(--accent-green)',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  lineHeight: 1,
+                }}
+              >
+                {badge}
+              </span>
+            )}
+          </div>
+          <span className="mobile-nav-label">{label}</span>
+        </NavLink>
+      ))}
+    </nav>
+  )
+}
+
 function ToastContainer() {
   const { toasts, dismiss } = useToastStore()
   const colors = { success: 'var(--accent-green)', error: 'var(--accent-red)', info: 'var(--accent-blue)', warning: 'var(--accent-amber)' }
@@ -114,7 +197,9 @@ function ToastContainer() {
 
 export default function App() {
   const location = useLocation()
-  const [alertCount] = useState(2) // demo
+  const [alertCount] = useState(2)
+  const [theme, toggleTheme] = useTheme()
+  const online = useOnlineStatus()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -122,7 +207,8 @@ export default function App() {
 
   return (
     <>
-      <Sidebar alerts={alertCount} />
+      <Sidebar alerts={alertCount} theme={theme} toggleTheme={toggleTheme} online={online} />
+      <MobileHeader theme={theme} toggleTheme={toggleTheme} online={online} />
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -132,6 +218,7 @@ export default function App() {
           <Route path="/advisory" element={<AdvisoryPage />} />
         </Routes>
       </main>
+      <MobileBottomNav />
       <ToastContainer />
     </>
   )

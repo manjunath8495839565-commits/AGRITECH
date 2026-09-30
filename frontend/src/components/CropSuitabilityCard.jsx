@@ -137,7 +137,7 @@ export function CropSuitabilityCard({ farmer, region, country, weather, soil, on
       className="card fade-in"
       style={{
         marginTop: 20,
-        padding: 24,
+        padding: 'clamp(14px, 3vw, 24px)',
         background: 'var(--bg-card)',
         borderRadius: 'var(--radius-md)',
         border: `1px solid ${isOptimal ? 'rgba(5, 150, 105, 0.3)' : 'var(--border)'}`,

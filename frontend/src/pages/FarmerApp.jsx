@@ -751,7 +751,7 @@ function FarmerActions({ farmer, region, country, onEditDetails, onUpdateCrop })
   ]
 
   return (
-    <div className="card" style={{ padding: 24 }}>
+    <div className="card" style={{ padding: 'clamp(14px, 3vw, 24px)' }}>
       {/* Farmer Profile Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20, flexWrap: 'wrap' }}>
         <div style={{
@@ -773,18 +773,26 @@ function FarmerActions({ farmer, region, country, onEditDetails, onUpdateCrop })
             {farmer.area_ha} ha (≈ {(farmer.area_ha * 2.47105).toFixed(1)} acres) • {farmer.crop} • {region.name}, {country}
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
           <span className="badge badge-green">{farmer.crop}</span>
           <span className="badge badge-blue">{farmer.area_ha} ha</span>
-          <button className="btn btn-secondary btn-sm" onClick={onEditDetails} style={{ marginLeft: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <button className="btn btn-secondary btn-sm" onClick={onEditDetails} style={{ marginLeft: 4, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <Icon name="edit" size={13} />
             <span>Edit Profile</span>
           </button>
         </div>
       </div>
 
-      {/* 5 Action Tabs */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 20, borderBottom: '1px solid var(--border)', overflowX: 'auto', paddingBottom: 0 }}>
+      {/* 5 Action Tabs (Touch-friendly horizontal scroll) */}
+      <div
+        className="tab-scroll-container"
+        style={{
+          display: 'flex', gap: 6, marginBottom: 20,
+          borderBottom: '1px solid var(--border)',
+          overflowX: 'auto', paddingBottom: 0,
+          WebkitOverflowScrolling: 'touch',
+        }}
+      >
         {tabs.map(t => (
           <button key={t.id}
             id={`farmer-tab-${t.id}`}
@@ -793,12 +801,13 @@ function FarmerActions({ farmer, region, country, onEditDetails, onUpdateCrop })
               background: tab === t.id ? 'var(--bg-secondary)' : 'none',
               border: 'none', borderBottom: tab === t.id ? '2px solid var(--accent-green)' : '2px solid transparent',
               color: tab === t.id ? 'var(--accent-green)' : 'var(--text-secondary)',
-              padding: '10px 16px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600,
+              padding: '10px 14px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600,
               fontFamily: 'var(--font-sans)', transition: 'all 0.15s', borderRadius: '4px 4px 0 0',
               whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: 6,
+              flexShrink: 0, minHeight: 42,
             }}
           >
-            <Icon name={t.icon} size={14} />
+            <Icon name={t.icon} size={15} />
             <span>{t.label}</span>
           </button>
         ))}

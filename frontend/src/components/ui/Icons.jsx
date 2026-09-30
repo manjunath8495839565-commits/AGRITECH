@@ -121,6 +121,11 @@ export const Icon = ({ name, size = 18, color = 'currentColor', className = '', 
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
       </>
     ),
+    moon: (
+      <>
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+      </>
+    ),
 
     // Actions & Flags
     shield: (
