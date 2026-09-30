@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from app.models.database import init_db
-from app.api import health, weather, soil, satellite, prices, advisory, interop
+from app.api import health, weather, soil, satellite, prices, advisory, interop, farms, regions, plant_scan
 
 
 @asynccontextmanager
@@ -23,16 +23,21 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(health.router, prefix="/api")
+app.include_router(regions.router, prefix="/api")
+app.include_router(farms.router, prefix="/api")
 app.include_router(weather.router, prefix="/api/weather")
 app.include_router(soil.router, prefix="/api/soil")
 app.include_router(satellite.router, prefix="/api/satellite")
 app.include_router(prices.router, prefix="/api/prices")
 app.include_router(advisory.router, prefix="/api/advisory")
 app.include_router(interop.router, prefix="/api/interop")
+app.include_router(plant_scan.router, prefix="/api")
+
+

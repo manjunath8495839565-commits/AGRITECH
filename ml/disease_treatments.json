@@ -1,0 +1,148 @@
+{
+  "treatments": {
+    "Tomato___Early_blight": {
+      "display_name": "Tomato Early Blight",
+      "pathogen": "Alternaria solani",
+      "severity": "High",
+      "organic_treatment": "Apply copper octanoate (copper soap) or Bacillus subtilis bio-fungicide at first sign of target-like concentric rings on lower leaves. Remove and destroy infected bottom foliage; mulch soil to prevent rain splashback.",
+      "chemical_treatment": "Azoxystrobin or Chlorothalonil fungicide class. Follow local label directions and statutory pre-harvest intervals.",
+      "prevention": "Stake plants for air circulation, avoid overhead sprinkler irrigation, maintain 3-year solanaceous crop rotation.",
+      "risk_factors": "Warm temperatures (24–29°C) accompanied by extended leaf wetness or high humidity (>80%)."
+    },
+    "Tomato___Late_blight": {
+      "display_name": "Tomato Late Blight",
+      "pathogen": "Phytophthora infestans",
+      "severity": "Critical",
+      "organic_treatment": "Fixed copper hydroxide sprays applied preventatively before rain events. Promptly rogued and bag infected plants; do not compost.",
+      "chemical_treatment": "Metalaxyl-M or Cymoxanil active ingredient formulations. Follow local label instructions and resistance management guidelines.",
+      "prevention": "Plant certified disease-free transplants, ensure wide row spacing, monitor regional blight forecast warnings.",
+      "risk_factors": "Cool, humid weather (15–22°C with persistent fog, mist, or rain)."
+    },
+    "Tomato___Bacterial_spot": {
+      "display_name": "Tomato Bacterial Spot",
+      "pathogen": "Xanthomonas perforans",
+      "severity": "Moderate-High",
+      "organic_treatment": "Liquid copper bactericide combined with Bacillus amyloliquefaciens. Spray during cool morning hours; avoid working in wet foliage.",
+      "chemical_treatment": "Copper hydroxide mixed with Mancozeb (protectant). Follow manufacturer label safety regulations.",
+      "prevention": "Use hot water-treated seed, rotate away from peppers and tomatoes for 2 years, eliminate volunteer nightshades.",
+      "risk_factors": "Frequent rainfall and warm temperatures (25–30°C)."
+    },
+    "Potato___Late_blight": {
+      "display_name": "Potato Late Blight",
+      "pathogen": "Phytophthora infestans",
+      "severity": "Critical",
+      "organic_treatment": "Bordeaux mixture (copper sulfate + slaked lime) or copper oxychloride. Destroy cull piles immediately.",
+      "chemical_treatment": "Fluopicolide or Dimethomorph active ingredient class. Adhere strictly to local agricultural authority guidelines.",
+      "prevention": "Plant certified seed tubers, hill rows well to protect developing tubers from washing spores, destroy vines 2 weeks before harvest.",
+      "risk_factors": "Temperatures between 12–22°C with continuous humidity >90%."
+    },
+    "Potato___Early_blight": {
+      "display_name": "Potato Early Blight",
+      "pathogen": "Alternaria solani",
+      "severity": "Moderate",
+      "organic_treatment": "Neem oil formulation or Trichoderma viride biological spray. Ensure adequate nitrogen and potassium to reduce plant stress.",
+      "chemical_treatment": "Difenoconazole or Mancozeb active ingredient class. Always follow local label and protective gear guidelines.",
+      "prevention": "Maintain balanced crop nutrition, irrigate early in the morning so canopy dries quickly.",
+      "risk_factors": "Alternating wet and dry periods with temperatures around 25°C."
+    },
+    "Corn___Common_rust": {
+      "display_name": "Maize Common Rust",
+      "pathogen": "Puccinia sorghi",
+      "severity": "Moderate",
+      "organic_treatment": "Apply sulfur-based wettable powder or potassium bicarbonate spray at early vegetative stage if pustules appear.",
+      "chemical_treatment": "Pyraclostrobin or Propiconazole triazole class. Apply only if disease reaches economic threshold before tasseling; follow regional regulations.",
+      "prevention": "Select resistant hybrids (Rp-resistant gene varieties), destroy infected crop residue after harvest.",
+      "risk_factors": "Moderate temperatures (16–25°C) with high relative humidity and dew."
+    },
+    "Corn___Northern_Leaf_Blight": {
+      "display_name": "Maize Northern Leaf Blight",
+      "pathogen": "Exserohilum turcicum",
+      "severity": "High",
+      "organic_treatment": "Bacillus pumilus bio-fungicide or copper soap. Plow under crop debris immediately following harvest.",
+      "chemical_treatment": "Azoxystrobin + Propiconazole formulation. Consult local pesticide registrar for approved timing.",
+      "prevention": "Rotate with non-host crops (soybean, peanut), plant tolerant hybrids, maintain balanced fertilization.",
+      "risk_factors": "Wet weather with moderate temperatures (18–27°C) and heavy dews."
+    },
+    "Grape___Black_rot": {
+      "display_name": "Grape Black Rot",
+      "pathogen": "Guignardia bidwellii",
+      "severity": "High",
+      "organic_treatment": "Lime-sulfur during dormant season; copper octanoate sprays from early shoot growth through fruit set.",
+      "chemical_treatment": "Myclobutanil or Tebuconazole active class. Follow vineyard pre-harvest limits.",
+      "prevention": "Prune mummified berries from vines and ground, orient vine rows with prevailing winds for rapid canopy drying.",
+      "risk_factors": "Warm, rainy spring and early summer weather (21–27°C)."
+    },
+    "Apple___Apple_scab": {
+      "display_name": "Apple Scab",
+      "pathogen": "Venturia inaequalis",
+      "severity": "High",
+      "organic_treatment": "Sulfur or potassium bicarbonate sprays during green-tip through bloom stages. Rake and compost fallen leaves with nitrogen to accelerate breakdown.",
+      "chemical_treatment": "Flusilazole or Captan active ingredient class. Follow local orchard spray schedules.",
+      "prevention": "Prune canopy annually for open structure, plant scab-resistant cultivars (e.g. Liberty, Enterprise).",
+      "risk_factors": "Wet spring weather with continuous leaf wetness of 6–10 hours."
+    },
+    "Wheat___Leaf_rust": {
+      "display_name": "Wheat Leaf Rust (Brown Rust)",
+      "pathogen": "Puccinia triticina",
+      "severity": "High",
+      "organic_treatment": "Sulfur dust (80% WP) or Trichoderma viride biological antagonist. Avoid excess nitrogen top-dressing which promotes lush vegetative tissue.",
+      "chemical_treatment": "Propiconazole (25% EC) or Tebuconazole triazole class. Spray when flag leaf shows >5% pustule incidence; obey local label instructions.",
+      "prevention": "Sow rust-resistant certified varieties (e.g. HD-2967, DBW-187), eliminate volunteer wheat grasses.",
+      "risk_factors": "Temperatures 15–25°C accompanied by light morning rains or persistent dew."
+    },
+    "Rice___Blast": {
+      "display_name": "Rice Blast (Leaf / Neck Blast)",
+      "pathogen": "Magnaporthe oryzae",
+      "severity": "Critical",
+      "organic_treatment": "Pseudomonas fluorescens seed treatment (10g/kg) and foliar bio-spray. Drain paddy water for 48 hours to reduce canopy micro-humidity.",
+      "chemical_treatment": "Tricyclazole (75% WP) or Kasugamycin class. Spray at early tillering and panicle emergence; follow statutory regulations.",
+      "prevention": "Avoid split-application delays of urea, use blast-tolerant seed lots, avoid planting at excessive seedling densities.",
+      "risk_factors": "High night humidity (>90%), daytime temperatures 24–28°C, and cloud cover."
+    },
+    "Soybean___healthy": {
+      "display_name": "Healthy Soybean Foliage",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No fungicide needed. Maintain standard biological scouting and balanced NPK nourishment.",
+      "chemical_treatment": "None required.",
+      "prevention": "Continue regular pest scouting; inspect lower leaf undersides weekly for early pod borer or rust spots.",
+      "risk_factors": "Low disease pressure."
+    },
+    "Tomato___healthy": {
+      "display_name": "Healthy Tomato Canopy",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No fungicide needed. Ensure regular drip irrigation and calcium supplementation to prevent blossom-end rot.",
+      "chemical_treatment": "None required.",
+      "prevention": "Keep foliage dry, apply organic mulch around root base, inspect for hornworms and aphids.",
+      "risk_factors": "Optimal growing conditions."
+    },
+    "Corn___healthy": {
+      "display_name": "Healthy Maize Foliage",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No curative sprays needed. Ensure moisture sufficiency during critical tasseling and silking stages.",
+      "chemical_treatment": "None required.",
+      "prevention": "Monitor for early armyworm egg masses; maintain weed-free crop borders.",
+      "risk_factors": "Favorable environmental conditions."
+    },
+    "Potato___healthy": {
+      "display_name": "Healthy Potato Canopy",
+      "pathogen": "None detected",
+      "severity": "None",
+      "organic_treatment": "No treatment required. Maintain hilling to protect tubers from greening and tuber moth.",
+      "chemical_treatment": "None required.",
+      "prevention": "Maintain preventative copper sprays only if regional weather stations announce late blight alert conditions.",
+      "risk_factors": "Low current blight risk."
+    },
+    "General___Foliar_infection": {
+      "display_name": "General Foliar Fungal / Bacterial Lesion",
+      "pathogen": "Unspecified foliar pathogen",
+      "severity": "Moderate",
+      "organic_treatment": "Prune severely spotted lower leaves. Spray broad-spectrum horticultural copper soap or neem seed extract (1500 ppm). Improve row airflow.",
+      "chemical_treatment": "Broad-spectrum contact protectant (Mancozeb or Copper hydroxide class). Follow local label instructions and safety gear mandates.",
+      "prevention": "Avoid wetting leaves during watering, rotate crop beds annually, sanitize pruning shears with 70% alcohol.",
+      "risk_factors": "Humid stagnant microclimates and dense plant spacing."
+    }
+  }
+}

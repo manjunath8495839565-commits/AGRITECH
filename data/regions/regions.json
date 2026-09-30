@@ -11,7 +11,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Red Loamy", "Black Vertisol", "Laterite"],
     "typical_crops": ["rice", "sugarcane", "cotton", "coffee", "ragi"],
-    "primary_crops": ["rice", "sugarcane", "cotton", "coffee", "ragi"],
     "language_default": "kn"
   },
   {
@@ -26,7 +25,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Black Cotton", "Clay Loam"],
     "typical_crops": ["soybean", "cotton", "sugarcane", "onion", "sorghum"],
-    "primary_crops": ["soybean", "cotton", "sugarcane", "onion", "sorghum"],
     "language_default": "mr"
   },
   {
@@ -41,7 +39,6 @@
     "rainfall_class": "irrigated",
     "soil_hint": ["Alluvial Loam", "Sandy Loam"],
     "typical_crops": ["wheat", "rice", "maize", "cotton", "mustard"],
-    "primary_crops": ["wheat", "rice", "maize", "cotton", "mustard"],
     "language_default": "pa"
   },
   {
@@ -56,7 +53,6 @@
     "rainfall_class": "high",
     "soil_hint": ["Ferralsol", "Oxisol (Cerrado)"],
     "typical_crops": ["soybean", "maize", "cotton"],
-    "primary_crops": ["soybean", "maize", "cotton"],
     "language_default": "pt"
   },
   {
@@ -71,7 +67,6 @@
     "rainfall_class": "high",
     "soil_hint": ["Clayey Acrisols", "Chernozem"],
     "typical_crops": ["soybean", "rice", "wheat", "maize"],
-    "primary_crops": ["soybean", "rice", "wheat", "maize"],
     "language_default": "pt"
   },
   {
@@ -86,12 +81,11 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Latosols", "Cambisols"],
     "typical_crops": ["coffee", "maize", "soybean", "beans"],
-    "primary_crops": ["coffee", "maize", "soybean", "beans"],
     "language_default": "pt"
   },
   {
     "id": "RU-KDA",
-    "aliases": ["KDA"],
+    "aliases": ["KDA", "Krasnodar Krai"],
     "name": "Krasnodar",
     "country": "Russia",
     "latitude": 45.04,
@@ -99,9 +93,8 @@
     "area_km2": 75500,
     "climate": "Humid Continental",
     "rainfall_class": "moderate",
-    "soil_hint": ["Chernozem", "Calcareous Loam"],
+    "soil_hint": ["Chernozem (Black Earth)", "Calcareous Loam"],
     "typical_crops": ["wheat", "sunflower", "maize", "barley", "sugar beet"],
-    "primary_crops": ["wheat", "sunflower", "maize", "barley", "sugar beet"],
     "language_default": "ru"
   },
   {
@@ -116,7 +109,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Deep Chernozem", "Grey Forest Soil"],
     "typical_crops": ["wheat", "sugar beet", "barley", "soybean"],
-    "primary_crops": ["wheat", "sugar beet", "barley", "soybean"],
     "language_default": "ru"
   },
   {
@@ -131,7 +123,6 @@
     "rainfall_class": "low",
     "soil_hint": ["Southern Chernozem", "Chestnut Soils"],
     "typical_crops": ["spring wheat", "buckwheat", "oats", "sunflower"],
-    "primary_crops": ["spring wheat", "buckwheat", "oats", "sunflower"],
     "language_default": "ru"
   },
   {
@@ -144,9 +135,8 @@
     "area_km2": 473000,
     "climate": "Subarctic Monsoonal",
     "rainfall_class": "moderate",
-    "soil_hint": ["Black Soil", "Meadow Soil"],
+    "soil_hint": ["Black Soil (Mollisol)", "Meadow Soil"],
     "typical_crops": ["soybean", "maize", "rice", "wheat"],
-    "primary_crops": ["soybean", "maize", "rice", "wheat"],
     "language_default": "zh"
   },
   {
@@ -161,7 +151,6 @@
     "rainfall_class": "high",
     "soil_hint": ["Lateritic Red Soil", "Karst Calcareous"],
     "typical_crops": ["sugarcane", "rice", "citrus", "cassava"],
-    "primary_crops": ["sugarcane", "rice", "citrus", "cassava"],
     "language_default": "zh"
   },
   {
@@ -176,7 +165,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Yellow-Brown Earth", "Fluvo-aquic Soil"],
     "typical_crops": ["wheat", "rice", "tea", "rapeseed", "cotton"],
-    "primary_crops": ["wheat", "rice", "tea", "rapeseed", "cotton"],
     "language_default": "zh"
   },
   {
@@ -191,7 +179,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Plinthic Loam", "Hutton Clay"],
     "typical_crops": ["maize", "sorghum", "vegetables", "sunflower"],
-    "primary_crops": ["maize", "sorghum", "vegetables", "sunflower"],
     "language_default": "en"
   },
   {
@@ -206,7 +193,6 @@
     "rainfall_class": "winter-high",
     "soil_hint": ["Sandy Glenrosa", "Calcareous Coastal"],
     "typical_crops": ["wheat", "grapes", "barley", "canola", "apples"],
-    "primary_crops": ["wheat", "grapes", "barley", "canola", "apples"],
     "language_default": "af"
   },
   {
@@ -221,7 +207,6 @@
     "rainfall_class": "high",
     "soil_hint": ["Deep Red Apedal", "Hydromorphic Clay"],
     "typical_crops": ["sugarcane", "maize", "timber", "banana"],
-    "primary_crops": ["sugarcane", "maize", "timber", "banana"],
     "language_default": "zu"
   },
   {
@@ -232,11 +217,10 @@
     "latitude": 11.60,
     "longitude": 37.39,
     "area_km2": 154708,
-    "climate": "Highland Temperate",
+    "climate": "Highland Temperate (Dega/Weyna Dega)",
     "rainfall_class": "seasonal-high",
-    "soil_hint": ["Vertisols", "Nitisols"],
+    "soil_hint": ["Vertisols", "Nitisols (Red Clay)"],
     "typical_crops": ["teff", "barley", "wheat", "sorghum", "sesame"],
-    "primary_crops": ["teff", "barley", "wheat", "sorghum", "sesame"],
     "language_default": "am"
   },
   {
@@ -250,8 +234,7 @@
     "climate": "Highland Moist",
     "rainfall_class": "high",
     "soil_hint": ["Volcanic Nitisols", "Humic Alisols"],
-    "typical_crops": ["coffee", "enset", "maize"],
-    "primary_crops": ["coffee", "enset", "maize"],
+    "typical_crops": ["coffee (Yirgacheffe/Sidamo)", "enset (false banana)", "maize"],
     "language_default": "sid"
   },
   {
@@ -266,7 +249,6 @@
     "rainfall_class": "moderate",
     "soil_hint": ["Luvisols", "Cambisols", "Vertisols"],
     "typical_crops": ["coffee", "teff", "wheat", "maize", "haricot bean"],
-    "primary_crops": ["coffee", "teff", "wheat", "maize", "haricot bean"],
     "language_default": "om"
   }
 ]

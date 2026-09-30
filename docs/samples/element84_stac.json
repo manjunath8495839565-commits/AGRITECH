@@ -4,120 +4,116 @@
   "stac_extensions": [],
   "context": {
     "limit": 1,
-    "matched": 51477989,
+    "matched": 51479621,
     "returned": 1
   },
-  "numberMatched": 51477989,
+  "numberMatched": 51479621,
   "numberReturned": 1,
   "features": [
     {
       "type": "Feature",
       "stac_version": "1.0.0",
       "stac_extensions": [
-        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
         "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
         "https://stac-extensions.github.io/mgrs/v1.0.0/schema.json",
         "https://stac-extensions.github.io/view/v1.0.0/schema.json",
-        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
-        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.1.0/schema.json",
         "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
-        "https://stac-extensions.github.io/processing/v1.1.0/schema.json"
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json"
       ],
-      "id": "S2B_38UMU_20260930_0_L2A",
+      "id": "S2B_32WNC_20260930_0_L2A",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              44.49501395857021,
-              48.7518975988087
+              11.027356239772814,
+              70.29461431534193
             ],
             [
-              45.0269610167187,
-              48.66914721873236
+              11.897212173497422,
+              70.14623567147866
             ],
             [
-              45.13249919043935,
-              48.650245287068756
+              11.916419450661834,
+              70.28241820903538
             ],
             [
-              45.13276898152921,
-              48.752927528985374
-            ],
-            [
-              44.49501395857021,
-              48.7518975988087
+              11.027356239772814,
+              70.29461431534193
             ]
           ]
         ]
       },
       "bbox": [
-        44.495014,
-        48.650245,
-        45.132769,
-        48.752928
+        11.027356,
+        70.146236,
+        11.916419,
+        70.294614
       ],
       "properties": {
-        "created": "2026-09-30T11:10:16.968Z",
+        "created": "2026-09-30T14:43:16.293Z",
         "platform": "sentinel-2b",
         "constellation": "sentinel-2",
         "instruments": [
           "msi"
         ],
-        "eo:cloud_cover": 100,
-        "proj:epsg": 32638,
+        "eo:cloud_cover": 51.378781,
+        "proj:epsg": 32632,
         "proj:centroid": {
-          "lat": 48.71893,
-          "lon": 44.92082
+          "lat": 70.24109,
+          "lon": 11.61366
         },
-        "mgrs:utm_zone": 38,
-        "mgrs:latitude_band": "U",
-        "mgrs:grid_square": "MU",
-        "grid:code": "MGRS-38UMU",
-        "view:azimuth": 106.47186529128324,
-        "view:incidence_angle": 5.018232140722828,
-        "view:sun_azimuth": 165.412306254751,
-        "view:sun_elevation": 37.9141665485077,
-        "s2:tile_id": "S2B_OPER_MSI_L2A_TL_2BPS_20260930T102522_A049968_T38UMU_N05.13",
-        "s2:degraded_msi_data_percentage": 0.0566,
-        "s2:nodata_pixel_percentage": 97.766131,
+        "mgrs:utm_zone": 32,
+        "mgrs:latitude_band": "W",
+        "mgrs:grid_square": "NC",
+        "grid:code": "MGRS-32WNC",
+        "view:azimuth": 121.17896020428246,
+        "view:incidence_angle": 1.5332020854154238,
+        "view:sun_azimuth": 183.481791205185,
+        "view:sun_elevation": 17.248005150789496,
+        "s2:tile_id": "S2B_OPER_MSI_L2A_TL_2BPS_20260930T140541_A049970_T32WNC_N05.13",
+        "s2:degraded_msi_data_percentage": 0,
+        "s2:nodata_pixel_percentage": 97.794205,
         "s2:saturated_defective_pixel_percentage": 0,
         "s2:cloud_shadow_percentage": 0,
         "s2:vegetation_percentage": 0,
         "s2:not_vegetated_percentage": 0,
-        "s2:water_percentage": 0,
+        "s2:water_percentage": 48.621219,
         "s2:unclassified_percentage": 0,
-        "s2:medium_proba_clouds_percentage": 32.193112,
-        "s2:high_proba_clouds_percentage": 54.670054,
-        "s2:thin_cirrus_percentage": 13.136835,
+        "s2:medium_proba_clouds_percentage": 2.906621,
+        "s2:high_proba_clouds_percentage": 0.044523,
+        "s2:thin_cirrus_percentage": 48.427635,
         "s2:snow_ice_percentage": 0,
         "s2:product_type": "S2MSI2A",
         "s2:processing_baseline": "05.13",
-        "s2:product_uri": "S2B_MSIL2A_20260930T075719_N0513_R035_T38UMU_20260930T102522.SAFE",
-        "s2:generation_time": "2026-09-30T10:25:22.000000Z",
-        "s2:datatake_id": "GS2B_20260930T075719_049968_N05.13",
+        "s2:product_uri": "S2B_MSIL2A_20260930T112109_N0513_R037_T32WNC_20260930T140541.SAFE",
+        "s2:generation_time": "2026-09-30T14:05:41.000000Z",
+        "s2:datatake_id": "GS2B_20260930T112109_049970_N05.13",
         "s2:datatake_type": "INS-NOBS",
-        "s2:datastrip_id": "S2B_OPER_MSI_L2A_DS_2BPS_20260930T102522_S20260930T075713_N05.13",
-        "s2:reflectance_conversion_factor": 0.995394208669456,
-        "datetime": "2026-09-30T08:06:24.257000Z",
+        "s2:datastrip_id": "S2B_OPER_MSI_L2A_DS_2BPS_20260930T140541_S20260930T112112_N05.13",
+        "s2:reflectance_conversion_factor": 0.995474353631087,
+        "datetime": "2026-09-30T11:21:25.487000Z",
         "s2:sequence": "0",
-        "earthsearch:s3_path": "s3://sentinel-cogs/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A",
-        "earthsearch:payload_id": "roda-sentinel2/workflow-sentinel2-to-stac/93f398b342b20ebfc39c17e48397ab0e",
+        "earthsearch:s3_path": "s3://sentinel-cogs/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A",
+        "earthsearch:payload_id": "roda-sentinel2/workflow-sentinel2-to-stac/4c7f1c56936637bbf67a5986445e5087",
         "earthsearch:boa_offset_applied": true,
         "processing:software": {
           "sentinel2-to-stac": "2026.08.16"
         },
-        "updated": "2026-09-30T11:10:16.968Z"
+        "updated": "2026-09-30T14:43:16.293Z"
       },
       "links": [
         {
           "rel": "self",
           "type": "application/geo+json",
-          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_38UMU_20260930_0_L2A"
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_32WNC_20260930_0_L2A"
         },
         {
           "rel": "canonical",
-          "href": "s3://sentinel-cogs/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/S2B_38UMU_20260930_0_L2A.json",
+          "href": "s3://sentinel-cogs/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/S2B_32WNC_20260930_0_L2A.json",
           "type": "application/json"
         },
         {
@@ -126,7 +122,7 @@
         },
         {
           "rel": "derived_from",
-          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2B_38UMU_20260930_0_L1C",
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l1c/items/S2B_32WNC_20260930_0_L1C",
           "type": "application/geo+json"
         },
         {
@@ -146,12 +142,12 @@
         },
         {
           "rel": "thumbnail",
-          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_38UMU_20260930_0_L2A/thumbnail"
+          "href": "https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2B_32WNC_20260930_0_L2A/thumbnail"
         }
       ],
       "assets": {
         "aot": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/AOT.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/AOT.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Aerosol optical thickness (AOT)",
           "gsd": 20,
@@ -162,10 +158,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -181,7 +177,7 @@
           ]
         },
         "blue": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B02.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B02.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Blue - 10m",
           "eo:bands": [
@@ -200,10 +196,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -220,7 +216,7 @@
           ]
         },
         "cloud": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/qi/CLD_20m.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/qi/CLD_20m.jp2",
           "type": "image/jp2",
           "title": "Cloud Probabilities",
           "gsd": 20,
@@ -231,10 +227,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -249,7 +245,7 @@
           ]
         },
         "coastal": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B01.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B01.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Coastal - 60m",
           "eo:bands": [
@@ -268,10 +264,10 @@
           "proj:transform": [
             60,
             0,
-            399960,
+            499980,
             0,
             -60,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -288,14 +284,14 @@
           ]
         },
         "granule_metadata": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/granule_metadata.xml",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/granule_metadata.xml",
           "type": "application/xml",
           "roles": [
             "metadata"
           ]
         },
         "green": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B03.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B03.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Green - 10m",
           "eo:bands": [
@@ -314,10 +310,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -334,7 +330,7 @@
           ]
         },
         "nir": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B08.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B08.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "NIR 1 - 10m",
           "eo:bands": [
@@ -353,10 +349,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -373,7 +369,7 @@
           ]
         },
         "nir08": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B8A.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B8A.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "NIR 2 - 20m",
           "eo:bands": [
@@ -392,10 +388,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -412,7 +408,7 @@
           ]
         },
         "nir09": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B09.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B09.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "NIR 3 - 60m",
           "eo:bands": [
@@ -431,10 +427,10 @@
           "proj:transform": [
             60,
             0,
-            399960,
+            499980,
             0,
             -60,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -451,14 +447,14 @@
           ]
         },
         "product_metadata": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/product_metadata.xml",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/product_metadata.xml",
           "type": "application/xml",
           "roles": [
             "metadata"
           ]
         },
         "red": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B04.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B04.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Red - 10m",
           "eo:bands": [
@@ -477,10 +473,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -497,7 +493,7 @@
           ]
         },
         "rededge1": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B05.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B05.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Red Edge 1 - 20m",
           "eo:bands": [
@@ -516,10 +512,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -536,7 +532,7 @@
           ]
         },
         "rededge2": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B06.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B06.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Red Edge 2 - 20m",
           "eo:bands": [
@@ -555,10 +551,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -575,7 +571,7 @@
           ]
         },
         "rededge3": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B07.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B07.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Red Edge 3 - 20m",
           "eo:bands": [
@@ -594,10 +590,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -614,7 +610,7 @@
           ]
         },
         "scl": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/SCL.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/SCL.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Scene classification map (SCL)",
           "gsd": 20,
@@ -625,10 +621,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -642,7 +638,7 @@
           ]
         },
         "snow": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/qi/SNW_20m.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/qi/SNW_20m.jp2",
           "type": "image/jp2",
           "title": "Snow Probabilities",
           "proj:shape": [
@@ -652,10 +648,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -670,7 +666,7 @@
           ]
         },
         "swir16": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B11.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B11.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "SWIR 1.6\u03bcm - 20m",
           "eo:bands": [
@@ -689,10 +685,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -709,7 +705,7 @@
           ]
         },
         "swir22": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/B12.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/B12.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "SWIR 2.2\u03bcm - 20m",
           "eo:bands": [
@@ -728,10 +724,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -748,14 +744,14 @@
           ]
         },
         "tileinfo_metadata": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/tileinfo_metadata.json",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/tileinfo_metadata.json",
           "type": "application/json",
           "roles": [
             "metadata"
           ]
         },
         "visual": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/TCI.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/TCI.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "True color image",
           "eo:bands": [
@@ -803,17 +799,17 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "roles": [
             "visual"
           ]
         },
         "wvp": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/WVP.tif",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/WVP.tif",
           "type": "image/tiff; application=geotiff; profile=cloud-optimized",
           "title": "Water Vapour (WVP)",
           "gsd": 20,
@@ -824,10 +820,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -844,7 +840,7 @@
           ]
         },
         "thumbnail": {
-          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/38/U/MU/2026/9/S2B_38UMU_20260930_0_L2A/preview.jpg",
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/32/W/NC/2026/9/S2B_32WNC_20260930_0_L2A/preview.jpg",
           "type": "image/jpeg",
           "title": "Thumbnail of preview image",
           "roles": [
@@ -852,7 +848,7 @@
           ]
         },
         "aot-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/AOT.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/AOT.jp2",
           "type": "image/jp2",
           "title": "Aerosol optical thickness (AOT)",
           "gsd": 20,
@@ -863,10 +859,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -882,7 +878,7 @@
           ]
         },
         "blue-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R10m/B02.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R10m/B02.jp2",
           "type": "image/jp2",
           "title": "Blue - 10m",
           "eo:bands": [
@@ -901,10 +897,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -921,7 +917,7 @@
           ]
         },
         "coastal-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R60m/B01.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R60m/B01.jp2",
           "type": "image/jp2",
           "title": "Coastal - 60m",
           "eo:bands": [
@@ -940,10 +936,10 @@
           "proj:transform": [
             60,
             0,
-            399960,
+            499980,
             0,
             -60,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -960,7 +956,7 @@
           ]
         },
         "green-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R10m/B03.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R10m/B03.jp2",
           "type": "image/jp2",
           "title": "Green - 10m",
           "eo:bands": [
@@ -979,10 +975,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -999,7 +995,7 @@
           ]
         },
         "nir-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R10m/B08.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R10m/B08.jp2",
           "type": "image/jp2",
           "title": "NIR 1 - 10m",
           "eo:bands": [
@@ -1018,10 +1014,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1038,7 +1034,7 @@
           ]
         },
         "nir08-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B8A.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B8A.jp2",
           "type": "image/jp2",
           "title": "NIR 2 - 20m",
           "eo:bands": [
@@ -1057,10 +1053,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1077,7 +1073,7 @@
           ]
         },
         "nir09-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R60m/B09.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R60m/B09.jp2",
           "type": "image/jp2",
           "title": "NIR 3 - 60m",
           "eo:bands": [
@@ -1096,10 +1092,10 @@
           "proj:transform": [
             60,
             0,
-            399960,
+            499980,
             0,
             -60,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1116,7 +1112,7 @@
           ]
         },
         "red-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R10m/B04.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R10m/B04.jp2",
           "type": "image/jp2",
           "title": "Red - 10m",
           "eo:bands": [
@@ -1135,10 +1131,10 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1155,7 +1151,7 @@
           ]
         },
         "rededge1-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B05.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B05.jp2",
           "type": "image/jp2",
           "title": "Red Edge 1 - 20m",
           "eo:bands": [
@@ -1174,10 +1170,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1194,7 +1190,7 @@
           ]
         },
         "rededge2-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B06.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B06.jp2",
           "type": "image/jp2",
           "title": "Red Edge 2 - 20m",
           "eo:bands": [
@@ -1213,10 +1209,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1233,7 +1229,7 @@
           ]
         },
         "rededge3-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B07.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B07.jp2",
           "type": "image/jp2",
           "title": "Red Edge 3 - 20m",
           "eo:bands": [
@@ -1252,10 +1248,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1272,7 +1268,7 @@
           ]
         },
         "scl-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/SCL.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/SCL.jp2",
           "type": "image/jp2",
           "title": "Scene classification map (SCL)",
           "gsd": 20,
@@ -1283,10 +1279,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1300,7 +1296,7 @@
           ]
         },
         "swir16-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B11.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B11.jp2",
           "type": "image/jp2",
           "title": "SWIR 1.6\u03bcm - 20m",
           "eo:bands": [
@@ -1319,10 +1315,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1339,7 +1335,7 @@
           ]
         },
         "swir22-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/B12.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/B12.jp2",
           "type": "image/jp2",
           "title": "SWIR 2.2\u03bcm - 20m",
           "eo:bands": [
@@ -1358,10 +1354,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1378,7 +1374,7 @@
           ]
         },
         "visual-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R10m/TCI.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R10m/TCI.jp2",
           "type": "image/jp2",
           "title": "True color image",
           "eo:bands": [
@@ -1426,17 +1422,17 @@
           "proj:transform": [
             10,
             0,
-            399960,
+            499980,
             0,
             -10,
-            5400000
+            7800000
           ],
           "roles": [
             "visual"
           ]
         },
         "wvp-jp2": {
-          "href": "s3://sentinel-s2-l2a/tiles/38/U/MU/2026/9/30/0/R20m/WVP.jp2",
+          "href": "s3://sentinel-s2-l2a/tiles/32/W/NC/2026/9/30/0/R20m/WVP.jp2",
           "type": "image/jp2",
           "title": "Water Vapour (WVP)",
           "gsd": 20,
@@ -1447,10 +1443,10 @@
           "proj:transform": [
             20,
             0,
-            399960,
+            499980,
             0,
             -20,
-            5400000
+            7800000
           ],
           "raster:bands": [
             {
@@ -1476,7 +1472,7 @@
       "title": "Next page of Items",
       "method": "GET",
       "type": "application/geo+json",
-      "href": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l2a&limit=1&next=2026-09-30T08%3A06%3A24.257000Z%2CS2B_38UMU_20260930_0_L2A%2Csentinel-2-l2a"
+      "href": "https://earth-search.aws.element84.com/v1/search?collections=sentinel-2-l2a&limit=1&next=2026-09-30T11%3A21%3A25.487000Z%2CS2B_32WNC_20260930_0_L2A%2Csentinel-2-l2a"
     },
     {
       "rel": "root",

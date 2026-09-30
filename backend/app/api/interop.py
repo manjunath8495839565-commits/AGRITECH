@@ -8,8 +8,11 @@ from app.schemas.models import InteropPacket, InteropAck
 
 router = APIRouter(tags=["interop"])
 
+PACKET_STORE: list[dict] = []
+
 # Shared secret for HMAC-SHA256 signatures (set in .env)
 INTEROP_SECRET = os.environ.get("INTEROP_SECRET", "agrin-dev-secret-change-in-prod")
+
 
 
 def _sign(packet: InteropPacket) -> str:
@@ -21,6 +24,9 @@ def _sign(packet: InteropPacket) -> str:
         "timestamp": packet.timestamp.isoformat(),
     }, sort_keys=True)
     return hmac.new(INTEROP_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+
+
+sign_packet_obj = _sign
 
 
 def _verify(packet: InteropPacket) -> bool:

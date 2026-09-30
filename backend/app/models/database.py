@@ -38,9 +38,18 @@ class ZoneDB(Base):
     country = Column(String)
     latitude = Column(Float)
     longitude = Column(Float)
-    area_km2 = Column(Float)
-    climate = Column(String)
-    primary_crops = Column(JSON)
+    area_km2 = Column(Float, nullable=True)
+    climate = Column(String, nullable=True)
+    rainfall_class = Column(String, nullable=True)
+    soil_hint = Column(JSON, nullable=True)
+    typical_crops = Column(JSON, nullable=True)
+    primary_crops = Column(JSON, nullable=True)
+    language_default = Column(String, nullable=True)
+
+
+# Safe alias for Region
+RegionDB = ZoneDB
+
 
 
 class Advisory(Base):
