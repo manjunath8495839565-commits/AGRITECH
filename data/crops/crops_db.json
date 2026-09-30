@@ -1,0 +1,22 @@
+{
+  "crops": [
+    {"name": "wheat", "scientific": "Triticum aestivum", "category": "cereal", "growing_days": 120, "water_mm_season": 450, "optimal_temp_c": [15, 25], "optimal_ph": [6.0, 7.5], "n_kg_ha": 120, "p_kg_ha": 60, "k_kg_ha": 40},
+    {"name": "rice", "scientific": "Oryza sativa", "category": "cereal", "growing_days": 140, "water_mm_season": 1200, "optimal_temp_c": [20, 35], "optimal_ph": [5.5, 6.5], "n_kg_ha": 100, "p_kg_ha": 50, "k_kg_ha": 50},
+    {"name": "maize", "scientific": "Zea mays", "category": "cereal", "growing_days": 90, "water_mm_season": 500, "optimal_temp_c": [18, 32], "optimal_ph": [5.8, 7.0], "n_kg_ha": 150, "p_kg_ha": 60, "k_kg_ha": 80},
+    {"name": "soybean", "scientific": "Glycine max", "category": "legume", "growing_days": 100, "water_mm_season": 450, "optimal_temp_c": [20, 30], "optimal_ph": [6.0, 7.0], "n_kg_ha": 20, "p_kg_ha": 60, "k_kg_ha": 80},
+    {"name": "sugarcane", "scientific": "Saccharum officinarum", "category": "cash_crop", "growing_days": 365, "water_mm_season": 1500, "optimal_temp_c": [20, 38], "optimal_ph": [5.5, 7.5], "n_kg_ha": 200, "p_kg_ha": 50, "k_kg_ha": 120},
+    {"name": "cotton", "scientific": "Gossypium hirsutum", "category": "cash_crop", "growing_days": 160, "water_mm_season": 700, "optimal_temp_c": [25, 35], "optimal_ph": [5.8, 7.0], "n_kg_ha": 100, "p_kg_ha": 40, "k_kg_ha": 40},
+    {"name": "groundnut", "scientific": "Arachis hypogaea", "category": "legume", "growing_days": 100, "water_mm_season": 400, "optimal_temp_c": [25, 35], "optimal_ph": [5.9, 7.0], "n_kg_ha": 25, "p_kg_ha": 40, "k_kg_ha": 40},
+    {"name": "sorghum", "scientific": "Sorghum bicolor", "category": "cereal", "growing_days": 110, "water_mm_season": 350, "optimal_temp_c": [20, 35], "optimal_ph": [5.5, 7.5], "n_kg_ha": 80, "p_kg_ha": 40, "k_kg_ha": 40},
+    {"name": "millet", "scientific": "Pennisetum glaucum", "category": "cereal", "growing_days": 75, "water_mm_season": 250, "optimal_temp_c": [25, 38], "optimal_ph": [5.5, 7.0], "n_kg_ha": 60, "p_kg_ha": 30, "k_kg_ha": 30},
+    {"name": "cassava", "scientific": "Manihot esculenta", "category": "root_crop", "growing_days": 300, "water_mm_season": 1000, "optimal_temp_c": [20, 32], "optimal_ph": [5.5, 7.0], "n_kg_ha": 60, "p_kg_ha": 60, "k_kg_ha": 120},
+    {"name": "potato", "scientific": "Solanum tuberosum", "category": "vegetable", "growing_days": 90, "water_mm_season": 500, "optimal_temp_c": [15, 22], "optimal_ph": [5.0, 6.5], "n_kg_ha": 120, "p_kg_ha": 100, "k_kg_ha": 200},
+    {"name": "tomato", "scientific": "Solanum lycopersicum", "category": "vegetable", "growing_days": 70, "water_mm_season": 600, "optimal_temp_c": [18, 28], "optimal_ph": [6.0, 7.0], "n_kg_ha": 100, "p_kg_ha": 60, "k_kg_ha": 150},
+    {"name": "onion", "scientific": "Allium cepa", "category": "vegetable", "growing_days": 120, "water_mm_season": 400, "optimal_temp_c": [15, 25], "optimal_ph": [6.0, 7.0], "n_kg_ha": 80, "p_kg_ha": 50, "k_kg_ha": 50},
+    {"name": "coffee", "scientific": "Coffea arabica", "category": "beverage", "growing_days": 365, "water_mm_season": 1600, "optimal_temp_c": [18, 24], "optimal_ph": [6.0, 6.5], "n_kg_ha": 60, "p_kg_ha": 20, "k_kg_ha": 60},
+    {"name": "cocoa", "scientific": "Theobroma cacao", "category": "beverage", "growing_days": 365, "water_mm_season": 1500, "optimal_temp_c": [18, 32], "optimal_ph": [6.0, 7.5], "n_kg_ha": 50, "p_kg_ha": 20, "k_kg_ha": 50},
+    {"name": "tea", "scientific": "Camellia sinensis", "category": "beverage", "growing_days": 365, "water_mm_season": 1800, "optimal_temp_c": [15, 28], "optimal_ph": [4.5, 6.0], "n_kg_ha": 150, "p_kg_ha": 40, "k_kg_ha": 100},
+    {"name": "banana", "scientific": "Musa spp.", "category": "fruit", "growing_days": 300, "water_mm_season": 1800, "optimal_temp_c": [20, 35], "optimal_ph": [5.5, 7.0], "n_kg_ha": 200, "p_kg_ha": 60, "k_kg_ha": 300},
+    {"name": "yam", "scientific": "Dioscorea spp.", "category": "root_crop", "growing_days": 240, "water_mm_season": 1100, "optimal_temp_c": [20, 30], "optimal_ph": [5.5, 7.0], "n_kg_ha": 60, "p_kg_ha": 40, "k_kg_ha": 120}
+  ]
+}

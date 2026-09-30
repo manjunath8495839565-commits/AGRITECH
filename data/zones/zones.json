@@ -1,0 +1,14 @@
+[
+  {"id": "IN-PNJ", "name": "Punjab", "country": "India", "latitude": 30.90, "longitude": 75.85, "area_km2": 50362, "climate": "Semi-arid", "primary_crops": ["wheat", "rice", "maize"]},
+  {"id": "IN-KAR", "name": "Karnataka", "country": "India", "latitude": 12.97, "longitude": 77.59, "area_km2": 191791, "climate": "Tropical", "primary_crops": ["rice", "sugarcane", "cotton"]},
+  {"id": "IN-MHR", "name": "Maharashtra", "country": "India", "latitude": 19.75, "longitude": 75.71, "area_km2": 307713, "climate": "Tropical", "primary_crops": ["soybean", "sugarcane", "onion"]},
+  {"id": "IN-UP",  "name": "Uttar Pradesh", "country": "India", "latitude": 26.85, "longitude": 80.91, "area_km2": 240928, "climate": "Semi-arid", "primary_crops": ["wheat", "sugarcane", "potato"]},
+  {"id": "KE-RVL", "name": "Rift Valley", "country": "Kenya", "latitude": -0.30, "longitude": 36.10, "area_km2": 182505, "climate": "Highland", "primary_crops": ["maize", "wheat", "coffee"]},
+  {"id": "KE-CEN", "name": "Central", "country": "Kenya", "latitude": -0.42, "longitude": 37.01, "area_km2": 13176, "climate": "Highland", "primary_crops": ["tea", "coffee", "banana"]},
+  {"id": "KE-CST", "name": "Coast", "country": "Kenya", "latitude": -4.05, "longitude": 39.67, "area_km2": 83603, "climate": "Tropical", "primary_crops": ["cassava", "coconut", "mango"]},
+  {"id": "NG-KAN", "name": "Kano", "country": "Nigeria", "latitude": 12.00, "longitude": 8.52, "area_km2": 20131, "climate": "Semi-arid", "primary_crops": ["groundnut", "sorghum", "millet"]},
+  {"id": "NG-OGN", "name": "Ogun", "country": "Nigeria", "latitude": 7.16, "longitude": 3.35, "area_km2": 16762, "climate": "Tropical", "primary_crops": ["cassava", "maize", "cocoa"]},
+  {"id": "NG-KWA", "name": "Kwara", "country": "Nigeria", "latitude": 8.49, "longitude": 4.55, "area_km2": 36825, "climate": "Tropical", "primary_crops": ["yam", "sorghum", "cotton"]},
+  {"id": "GH-ASH", "name": "Ashanti", "country": "Ghana", "latitude": 6.73, "longitude": -1.62, "area_km2": 24389, "climate": "Tropical", "primary_crops": ["cocoa", "cassava", "plantain"]},
+  {"id": "GH-NOR", "name": "Northern", "country": "Ghana", "latitude": 9.40, "longitude": -0.85, "area_km2": 70384, "climate": "Semi-arid", "primary_crops": ["groundnut", "sorghum", "maize"]}
+]
